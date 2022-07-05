@@ -21,7 +21,7 @@
 
 [![Product Name Screen Shot][product-screenshot]]()
 
-Marketplace Functions:
+App Functions:
 
 - Create a fundraising campaign
 
