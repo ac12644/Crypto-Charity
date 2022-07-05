@@ -46,7 +46,7 @@ App Functions:
 
 1. Clone the repo
    ```sh
-     https://github.com/ac12644/Put-A-Smile.git
+   https://github.com/ac12644/Put-A-Smile.git
    ```
 2. Install packages
    ```sh
