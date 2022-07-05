@@ -21,7 +21,7 @@
 
 [![Product Name Screen Shot][product-screenshot]]()
 
-Marketplace Functions:
+App Functions:
 
 - Create a fundraising campaign
 
@@ -46,7 +46,11 @@ Marketplace Functions:
 
 1. Clone the repo
    ```sh
+<<<<<<< HEAD
    https://github.com/ac12644/Fundraiser_Dapp.git
+=======
+   https://github.com/ac12644/Put-A-Smile.git
+>>>>>>> d42230d68f66a99c04b887914769e6f662ef72ba
    ```
 2. Install packages
    ```sh
