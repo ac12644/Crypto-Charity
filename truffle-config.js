@@ -1,21 +1,24 @@
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 require("dotenv").config();
 
+const INFURA_ID = process.env.INFURA_ID;
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
+
 module.exports = {
 
   networks: {
     // -------------- TESTNET ---------------------
     mumbai: {
       provider: () => new HDWalletProvider(
-          process.env.PRIVATE_KEY,
-         `https://polygon-mumbai.infura.io/v3/a1f754ea74b24beea097773f476894e0`
+          PRIVATE_KEY,
+         `https://polygon-mumbai.infura.io/v3/${INFURA_ID}`
         ),
       network_id: 80001,
       
     },
     smartChain: {
       provider: () => new HDWalletProvider(
-        process.env.PRIVATE_KEY,
+        PRIVATE_KEY,
        `https://data-seed-prebsc-1-s1.binance.org:8545/`
       ),
       network_id: 97,
@@ -25,8 +28,8 @@ module.exports = {
     },
     kovan: {
       provider: () => new HDWalletProvider(
-        process.env.PRIVATE_KEY,
-        `https://kovan.infura.io/v3/a1f754ea74b24beea097773f476894e0`
+         PRIVATE_KEY,
+        `https://kovan.infura.io/v3/${INFURA_ID}`
       ),
       network_id: 42,
       gas: 8500000,
@@ -37,7 +40,7 @@ module.exports = {
 
     bsc: {
       provider: () => new HDWalletProvider(
-        process.env.PRIVATE_KEY, 
+         PRIVATE_KEY, 
         `https://bsc-dataseed1.binance.org`
         ),
       network_id: 56,
@@ -100,26 +103,5 @@ module.exports = {
       //  evmVersion: "byzantium"
       // }
     }
-  },
-
-  // Truffle DB is currently disabled by default; to enable it, change enabled:
-  // false to enabled: true. The default storage location can also be
-  // overridden by specifying the adapter settings, as shown in the commented code below.
-  //
-  // NOTE: It is not possible to migrate your contracts to truffle DB and you should
-  // make a backup of your artifacts to a safe location before enabling this feature.
-  //
-  // After you backed up your artifacts you can utilize db by running migrate as follows:
-  // $ truffle migrate --reset --compile-all
-  //
-  // db: {
-  //   enabled: false,
-  //   host: "127.0.0.1",
-  //   adapter: {
-  //     name: "sqlite",
-  //     settings: {
-  //       directory: ".db"
-  //     }
-  //   }
-  // }
+  }
 };
