@@ -3,6 +3,7 @@ require("dotenv").config();
 
 const INFURA_ID = process.env.INFURA_ID;
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
+const MNEMONIC_KEY = process.env.MNEMONIC;
 
 module.exports = {
 
@@ -10,11 +11,15 @@ module.exports = {
     // -------------- TESTNET ---------------------
     mumbai: {
       provider: () => new HDWalletProvider(
-          PRIVATE_KEY,
-         `https://polygon-mumbai.infura.io/v3/${INFURA_ID}`
+        MNEMONIC_KEY,
+         `https://rpc-mumbai.matic.today`
         ),
       network_id: 80001,
-      
+      confirmations: 2,
+      timeoutBlocks: 200,
+      skipDryRun: true,
+      gas: 6000000,
+      gasPrice: 10000000000,
     },
     smartChain: {
       provider: () => new HDWalletProvider(

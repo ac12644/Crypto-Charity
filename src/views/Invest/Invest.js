@@ -6,7 +6,7 @@ import Main from 'layouts/Main';
 import Container from 'components/Container';
 import Hero from 'components/Hero';
 import Contact from 'components/Contact';
-import PortfolioGrid from 'components/PortfolioGrid';
+import PopupBox from 'blocks/PopupBox';
 
 import detectEthereumProvider from '@metamask/detect-provider';
 import FundraiserFactoryContract from 'contracts/FundraiserFactory.json';
@@ -14,14 +14,13 @@ import Web3 from "web3";
 
 export default function CreateItem() {
   const theme = useTheme();
-
-  const [ contract, setContract] = useState(null)
-  const [ accounts, setAccounts ] = useState(null)
-  const [ funds, setFunds ] = useState([])
+  const [ contract, setContract] = useState(null);
+  const [ accounts, setAccounts ] = useState(null);
+  const [ funds, setFunds ] = useState([]);
   
 
   useEffect(() => {
-    init()
+    init();
   }, []);
 
   const init = async () => {
@@ -35,12 +34,10 @@ export default function CreateItem() {
         FundraiserFactoryContract.abi,
         deployedNetwork && deployedNetwork.address,
       );
-      setContract(instance)
-      setAccounts(accounts)
-
-      const funds = await instance.methods.fundraisers(10, 0).call()
-
-      setFunds(funds)
+      setContract(instance);
+      setAccounts(accounts);
+      const funds = await instance.methods.fundraisers(10, 0).call();
+      setFunds(funds);
     }
     catch(error) {
       alert(
@@ -61,9 +58,12 @@ export default function CreateItem() {
         />
       </Container>
       <Container paddingY={3}>
-        <PortfolioGrid 
-          data={funds}
-        />
+        {funds.map( (fundraiser) => {
+          <PopupBox 
+            fundraiser={fundraiser}
+            key={fundraiser}
+          />
+        }) }
       </Container>
       <Box
         position={'relative'}

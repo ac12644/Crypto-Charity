@@ -13,12 +13,48 @@ import LinkIcon from '@mui/icons-material/Link';
 import Link from '@mui/material/Link';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 
+const mock = [
+  {
+    media: 'https://assets.maccarianagency.com/backgrounds/img56.jpg',
+    title: 'Adidas shoes',
+    description: 'Discover the new collection of Adidas.',
+    price: '$69.90',
+    href: '#',
+    reviewScore: 5,
+    reviewCount: 12,
+  },
+  {
+    media: 'https://assets.maccarianagency.com/backgrounds/img63.jpg',
+    title: 'Colorful shoes',
+    description: 'Colorful shoes designed for everyone.',
+    price: '$39.90',
+    reviewScore: 4,
+    reviewCount: 6,
+  },
+  {
+    media: 'https://assets.maccarianagency.com/backgrounds/img57.jpg',
+    title: 'Nike',
+    description: 'New arrivals of Nike sport shoes.',
+    price: '$49.90',
+    href: '#',
+    reviewScore: 5,
+    reviewCount: 8,
+  },
+  {
+    media: 'https://assets.maccarianagency.com/backgrounds/img58.jpg',
+    title: 'Sneakers',
+    description: 'Trendy Sneakers designed for everyone.',
+    price: '$59.90',
+    reviewScore: 4,
+    reviewCount: 10,
+  },
+];
+
 const PortfolioGrid = ({data=[], buttonFunc, buttonName}) => {
   const theme = useTheme();
   return (
     <Box>
       <Grid container spacing={4}>
-        
           <Grid
             item
             xs={12}
@@ -29,7 +65,7 @@ const PortfolioGrid = ({data=[], buttonFunc, buttonName}) => {
             data-aos-duration={600}
           >
             <Box display={'block'} width={1} height={1}>
-            {data.map((item, i) => (
+            {mock.map((item, i) => (
               <Box
                 key={i}
                 component={Card}
@@ -39,8 +75,8 @@ const PortfolioGrid = ({data=[], buttonFunc, buttonName}) => {
                 flexDirection={'column'}
               >
                 <CardMedia
-                  title={item.name}
-                  image={item.imageURL}
+                  title={item.title}
+                  image={item.media}
                   sx={{
                     position: 'relative',
                     height: { xs: 240, sm: 340, md: 280 },
@@ -97,7 +133,7 @@ const PortfolioGrid = ({data=[], buttonFunc, buttonName}) => {
                     align={'left'}
                     sx={{ fontWeight: 700 }}
                   >
-                    {item.name}
+                    {item.title}
                   </Typography>
                   <Box display={'flex'} alignItems={'center'} marginY={2}>
                     <Typography variant={'subtitle2'} color="text.secondary">
