@@ -18,10 +18,7 @@ contract Fundraiser is Ownable {
 
   string public name;
   string public linkToCompany;
-  string public image1;
-  string public image2;
-  string public image3;
-  string public image4;
+  string public images;
   string public description;
   string public about;
 
@@ -33,10 +30,7 @@ contract Fundraiser is Ownable {
   constructor(
     string memory _name,
     string memory _linkToCompany,
-    string memory _image1,
-    string memory _image2,
-    string memory _image3,
-    string memory _image4,
+    string memory _images,
     string memory _description,
     string memory _about,
     address payable _beneficiary,
@@ -44,10 +38,7 @@ contract Fundraiser is Ownable {
   ) public {
     name = _name;
     linkToCompany = _linkToCompany;
-    image1 = _image1;
-    image2 = _image2;
-    image3 = _image3;
-    image4 = _image4;
+    images = _images;
     description = _description;
     about = _about;
     beneficiary = _beneficiary;

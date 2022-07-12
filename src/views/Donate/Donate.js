@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
+import Grid from '@mui/material/Grid';
 
 import Main from 'layouts/Main';
 import Container from 'components/Container';
 import Hero from 'components/Hero';
 import Contact from 'components/Contact';
-import PopupBox from 'blocks/PopupBox';
+import FundraiserCard from 'blocks/FundraiserCard';
 
-import detectEthereumProvider from '@metamask/detect-provider';
-import FundraiserFactoryContract from 'contracts/FundraiserFactory.json';
+import FactoryContract from 'contracts/FundraiserFactory.json';
 import Web3 from "web3";
 
-export default function CreateItem() {
+export default function Donate() {
   const theme = useTheme();
   const [ contract, setContract] = useState(null);
   const [ accounts, setAccounts ] = useState(null);
   const [ funds, setFunds ] = useState([]);
-  
+  const web3 = new Web3(new Web3.providers.HttpProvider('https://data-seed-prebsc-1-s1.binance.org:8545/'));
 
   useEffect(() => {
     init();
@@ -25,13 +25,11 @@ export default function CreateItem() {
 
   const init = async () => {
     try {
-      const provider = await detectEthereumProvider();
-      const web3 = new Web3(provider);
       const networkId = await web3.eth.net.getId();
-      const deployedNetwork = FundraiserFactoryContract.networks[networkId];
+      const deployedNetwork = FactoryContract.networks[networkId];
       const accounts = await web3.eth.getAccounts();
       const instance = new web3.eth.Contract(
-        FundraiserFactoryContract.abi,
+        FactoryContract.abi,
         deployedNetwork && deployedNetwork.address,
       );
       setContract(instance);
@@ -40,13 +38,21 @@ export default function CreateItem() {
       setFunds(funds);
     }
     catch(error) {
-      alert(
-        `Failed to load web3, accounts, or contract. Check console for details.`,
-      );
       console.error(error);
     }
   }
 
+  const displayFundraisers = () => {
+    return funds.map((fundraiser) => {
+      return (
+        <FundraiserCard
+          fundraiser={fundraiser}
+          key={fundraiser}
+        />
+      )
+    })
+  }
+   
   return (
     <Main>
       <Container>
@@ -58,12 +64,9 @@ export default function CreateItem() {
         />
       </Container>
       <Container paddingY={3}>
-        {funds.map( (fundraiser) => {
-          <PopupBox 
-            fundraiser={fundraiser}
-            key={fundraiser}
-          />
-        }) }
+      <Grid container spacing={4}>
+        {displayFundraisers()}
+        </Grid>
       </Container>
       <Box
         position={'relative'}

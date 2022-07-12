@@ -130,13 +130,6 @@ export const Login = () => {
     [provider]
   )
 
-  // Auto connect to the cached provider
-  useEffect(() => {
-    if (web3Modal.cachedProvider) {
-      connect()
-    }
-  }, [connect])
-
   // A `provider` should come with EIP-1193 events. We'll listen for those events
   // here so that when a user switches accounts or networks, we can update the
   // local React state with that new information.

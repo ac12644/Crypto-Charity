@@ -12,9 +12,10 @@ contract("FundraiserFactory: createFundraiser", (accounts) => {
   let fundraiserFactory;
   // fundraiser args
   const name =  "Beneficiary Name";
-  const url = "beneficiaryname.org";
-  const imageURL = "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+  const linkToCompany = "beneficiaryname.org";
+  const images = "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
   const description = "Beneficiary Description"
+  const about = "Beneficiary About"
   const beneficiary = accounts[1];
 
   it("increments the fundraisersCount", async () => {
@@ -22,9 +23,10 @@ contract("FundraiserFactory: createFundraiser", (accounts) => {
     const currentFundraisersCount = await fundraiserFactory.fundraisersCount();
     await fundraiserFactory.createFundraiser(
       name,
-      url,
-      imageURL,
+      linkToCompany,
+      images,
       description,
+      about,
       beneficiary
     );
     const newFundraisersCount = await fundraiserFactory.fundraisersCount();
@@ -40,9 +42,10 @@ contract("FundraiserFactory: createFundraiser", (accounts) => {
     fundraiserFactory = await FundraiserFactoryContract.deployed();
     const tx = await fundraiserFactory.createFundraiser(
       name,
-      url,
-      imageURL,
+      linkToCompany,
+      images,
       description,
+      about,
       beneficiary
     );
     const expectedEvent = "FundraiserCreated";

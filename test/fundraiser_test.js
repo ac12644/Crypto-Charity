@@ -3,18 +3,20 @@ const FundraiserContract = artifacts.require("Fundraiser");
 contract("Fundraiser", accounts => {
   let fundraiser;
   const name =  "Beneficiary Name";
-  const url = "beneficiaryname.org";
-  const imageURL = "https://placekitten.com/600/350";
-  const description = "Beneficiary description";
+  const linkToCompany = "beneficiaryname.org";
+  const images = "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+  const description = "Beneficiary Description"
+  const about = "Beneficiary About"
   const beneficiary = accounts[1];
   const owner = accounts[0];
 
   beforeEach(async () => {
     fundraiser = await FundraiserContract.new(
       name,
-      url,
-      imageURL,
+      linkToCompany,
+      images,
       description,
+      about,
       beneficiary,
       owner 
     )
@@ -26,22 +28,27 @@ contract("Fundraiser", accounts => {
       assert.equal(actual, name, "names should match");
     });
 
-    it("gets the beneficiary url", async () => {
-      const actual = await fundraiser.url();
-      assert.equal(actual, url, "url should match");
+    it("gets the company url", async () => {
+      const actual = await fundraiser.linkToCompany();
+      assert.equal(actual, linkToCompany, "company link should match");
     });
 
     it("gets the beneficiary image url", async () => {
-      const actual = await fundraiser.imageURL();
-      assert.equal(actual, imageURL, "imageURL should match");
+      const actual = await fundraiser.images();
+      assert.equal(actual, images, "images should match");
     });
 
-    it("gets the beneficiary description", async () => {
+    it("gets the company description", async () => {
       const actual = await fundraiser.description();
       assert.equal(actual, description, "description should match");
     });
 
-    it("gets the beneficiary", async () => {
+    it("gets the company about", async () => {
+      const actual = await fundraiser.about();
+      assert.equal(actual, about, "company about should match");
+    });
+
+    it("gets the beneficiary address", async () => {
       const actual = await fundraiser.beneficiary();
       assert.equal(actual, beneficiary, "beneficiary addresses should match");
     });
@@ -170,9 +177,7 @@ contract("Fundraiser", accounts => {
     it("transfers balance to beneficiary", async () => {
       const currentContractBalance = await web3.eth.getBalance(fundraiser.address);
       const currentBeneficiaryBalance = await web3.eth.getBalance(beneficiary);
-    
       await fundraiser.withdraw({from: owner});
-    
       const newContractBalance = await web3.eth.getBalance(fundraiser.address);
       const newBeneficiaryBalance = await web3.eth.getBalance(beneficiary);
       const beneficiaryDifference = newBeneficiaryBalance - currentBeneficiaryBalance;

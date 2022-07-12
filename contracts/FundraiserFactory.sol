@@ -12,10 +12,7 @@ contract FundraiserFactory {
   function createFundraiser(
     string memory name,
     string memory linkToCompany,
-    string memory image1,
-    string memory image2,
-    string memory image3,
-    string memory image4,
+    string memory images,
     string memory description,
     string memory about,
     address payable beneficiary
@@ -23,10 +20,7 @@ contract FundraiserFactory {
     Fundraiser fundraiser = new Fundraiser(
       name,
       linkToCompany,
-      image1,
-      image2,
-      image3,
-      image4,
+      images,
       description,
       about,
       beneficiary,

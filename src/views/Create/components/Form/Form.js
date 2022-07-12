@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
+import { 
+  Box, 
+  Grid, 
+  TextField, 
+  Typography,
+  IconButton,
+  Collapse,
+  Alert 
+} from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import AttachFileIcon from '@mui/icons-material/AttachFile';
-import SendIcon from '@mui/icons-material/Send';
-import Collapse from '@mui/material/Collapse';
-import CloseIcon from '@mui/icons-material/Close';
-import Alert from '@mui/material/Alert';
+import { AttachFile, AddPhotoAlternate, Close, Send } from '@mui/icons-material';
 
 import Web3 from 'web3';
 import detectEthereumProvider from '@metamask/detect-provider';
 import FundraiserFactoryContract from 'contracts/FundraiserFactory.json';
 import { create as ipfsHttpClient } from 'ipfs-http-client';
+const all = require('it-all');
 
 const validationSchema = yup.object({
   name: yup
@@ -29,17 +29,24 @@ const validationSchema = yup.object({
   description: yup
     .string()
     .trim()
-    .max(1000, 'Should be less than 1000 chars')
-    .required('Please write description'),
+    .min(210, 'Description is too short')
+    .max(2020, 'Should be less than 300 words')
+    .required('Please describe your project'),
+  about: yup
+    .string()
+    .trim()
+    .min(210, 'Company description is too short')
+    .max(2020, 'Should be less than 300 words')
+    .required('Please write about your company'),
   beneficiary: yup
     .string()
-    .min(0, 'Price should be minimum 0')
-    .required('Please specify NFT price')
+    .min(6, 'Beneficiary address should be correct')
+    .required('Please specify beneficiary address')
     .matches(
       /0x[a-fA-F0-9]{40}/,
       'Enter correct wallet address!'
     ),
-  url: yup
+  linkToCompany: yup
     .string()
     .min(3, 'Enter correct link')
     .matches(
@@ -52,9 +59,10 @@ const Form = () => {
   const formik = useFormik({
     initialValues: {
       name: '',
+      linkToCompany: '',
       description: '',
-      beneficiary: '',
-      url: ''
+      about: '',
+      beneficiary: ''
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -64,17 +72,17 @@ const Form = () => {
     }
   });
 
-  const [ contract, setContract] = useState(null);
-  const [ web3, setWeb3 ] = useState(null);
-  const [ accounts, setAccounts ] = useState(null);
+  const [contract, setContract] = useState(null);
+  const [web3, setWeb3] = useState(null);
+  const [accounts, setAccounts] = useState(null);
   const [alertOpen, setAlertOpen] = useState(false);
-  const [loading, setLoading] = React.useState(false);
-  const [imageAddress, setImageAddress] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [images, setImages] = useState('');
   const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0');
   
   useEffect (() => {
     init();
-}, []);
+  }, []);
 
   async function init() {
         try {
@@ -95,7 +103,7 @@ const Form = () => {
         }
     }
     
-  async function onChange(e) {
+  async function saveToIpfs(e) {
     const file = e.target.files[0]
     try {
       const added = await client.add(
@@ -104,29 +112,29 @@ const Form = () => {
           progress: (prog) => console.log(`received: ${prog}`)
         }
       )
-      setImageAddress(`https://ipfs.infura.io/ipfs/${added.path}`);
-
-      console.log('----------------', imageAddress);
+      const fileUrl = `https://ipfs.infura.io/ipfs/${added.path}`;
+      setImages(fileUrl);
+      console.log('----------------', images);
     } catch (error) {
       console.log('Error uploading file: ', error);
       setLoading(false);
     }  
   }
-
+  
  async function handleSubmit() {
-  if (imageAddress) {
-    const { name, url, description, beneficiary } = formik.values;
-    if (!name || !description || !url || !beneficiary || !imageAddress) return
+  if (images) {
+    const { name, linkToCompany, description, about, beneficiary } = formik.values;
+    if (!name || !description || !about || !linkToCompany || !beneficiary || !images) return
     /* first, upload to IPFS */
     const data = JSON.stringify({
-      name, description, url, beneficiary, imageAddress
+      name, linkToCompany, images, description, about,  beneficiary
     });
     
     console.log(data);
 
       try {
       const transaction = await contract.methods.createFundraiser( 
-        name, url, imageAddress, description, beneficiary
+        name, linkToCompany, images, description, about,  beneficiary
         ).send({ from: accounts[0] });
         
           alert('Project created successfully');
@@ -138,15 +146,11 @@ const Form = () => {
           setLoading(false);
         }
         setLoading(false);
-        
       }
-      
-      if (!imageAddress) {
+      if (!images) { 
         setAlertOpen(true);
         setLoading(false);
       }
-       
-        
     }  
   return (
         <Box>
@@ -158,31 +162,28 @@ const Form = () => {
                   sx={{ marginBottom: 2, display: 'flex', alignItems: 'center' }}
                   fontWeight={700}
                 >
-                  <AttachFileIcon fontSize="medium" />
-                  Upload image *
+                  <AttachFile fontSize="medium" />
+                  Upload images *
                 </Typography>
-                   <input
-                     type='file'
-                     name={'file'}
-                     accept={'image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp'}
-                     onChange={onChange}
-                   />
+                <input
+                    type='file'
+                    name={'images'}
+                    accept={'image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp'}
+                    id='upload'
+                    multiple
+                    onChange={saveToIpfs}
+                    style={{display: 'none', cursor: 'pointer'}}
+                  />
+                <IconButton aria-label='upload' size='small'>
+                  <label htmlFor="upload">
+                    <AddPhotoAlternate fontSize="large" />
+                  </label> 
+                </IconButton>
+
                 {
-                  imageAddress && (
+                  images && (
                     <Alert
                       severity='success'
-                      action={
-                        <IconButton
-                          aria-label="close"
-                          color="inherit"
-                          size="small"
-                          onClick={() => {
-                            setAlertOpen(false);
-                          }}
-                        >
-                          <CloseIcon fontSize="inherit" />
-                        </IconButton>
-                      }
                       sx={{ mt: 1 }}
                     >
                       File uploaded successfully!
@@ -202,7 +203,7 @@ const Form = () => {
                             setAlertOpen(false);
                           }}
                         >
-                          <CloseIcon fontSize="inherit" />
+                          <Close fontSize="inherit" />
                         </IconButton>
                       }
                       sx={{ mb: 2 }}
@@ -218,7 +219,7 @@ const Form = () => {
                   sx={{ marginBottom: 2 }}
                   fontWeight={700}
                 >
-                  Project*
+                  Project *
                 </Typography>
                 <TextField
                   label="Name of your project"
@@ -239,14 +240,14 @@ const Form = () => {
                   sx={{ marginBottom: 2 }}
                   fontWeight={700}
                 >
-                  Description*
+                  Description *
                 </Typography>
                 <TextField
-                  label="Describe your project"
+                  label="Describe your project (<300 words)"
                   variant="outlined"
                   name={'description'}
                   multiline
-                  rows={3}
+                  rows={5}
                   fullWidth
                   onChange={formik.handleChange}
                   value={formik.values?.description}
@@ -254,14 +255,37 @@ const Form = () => {
                   helperText={formik.touched.description && formik.errors.description}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <Typography
                   variant={'subtitle2'}
                   sx={{ marginBottom: 2 }}
                   fontWeight={700}
                 >
-                  Beneficiary Address*
+                  About your company *
                 </Typography>
+                <TextField
+                  label="Write about your company (<300 words)"
+                  variant="outlined"
+                  name={'about'}
+                  multiline
+                  rows={5}
+                  fullWidth
+                  onChange={formik.handleChange}
+                  value={formik.values?.about}
+                  error={formik.touched.about && Boolean(formik.errors.about)}
+                  helperText={formik.touched.about && formik.errors.about}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Box display='flex' alignItems='center' >
+                <Typography
+                  variant={'subtitle2'}
+                  sx={{ marginBottom: 2 }}
+                  fontWeight={700}
+                >
+                  Beneficiary Address *
+                </Typography>
+                </Box>
                 <TextField
                   label="Wallet address 0x..."
                   variant="outlined"
@@ -281,17 +305,17 @@ const Form = () => {
                   sx={{ marginBottom: 2 }}
                   fontWeight={700}
                 >
-                  Link to Project*
+                  Link to Project *
                 </Typography>
                 <TextField
                   label="Link to your project"
                   variant="outlined"
-                  name={'url'}
+                  name={'linkToCompany'}
                   fullWidth
                   onChange={formik.handleChange}
-                  value={formik.values?.url}
-                  error={formik.touched.url && Boolean(formik.errors.url)}
-                  helperText={formik.touched.url && formik.errors.url}
+                  value={formik.values?.linkToCompany}
+                  error={formik.touched.linkToCompany && Boolean(formik.errors.linkToCompany)}
+                  helperText={formik.touched.linkToCompany && formik.errors.linkToCompany}
                 />
               </Grid>
               <Grid item container xs={12}>
@@ -304,7 +328,7 @@ const Form = () => {
                   margin={'0 auto'}
                 >
                   <LoadingButton 
-                    endIcon={<SendIcon />} 
+                    endIcon={<Send />} 
                     size={'large'} 
                     variant={'contained'} 
                     type={'submit'}

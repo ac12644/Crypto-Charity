@@ -5,12 +5,12 @@ const pages =
       href: '/projects',
     },
     {
-      title: 'Get Funding',
+      title: 'Raise Fund',
       href: '/create',
     },
     {
-      title: 'Start Investing',
-      href: '/invest',
+      title: 'Start Donating',
+      href: '/donate',
     } 
   ]
  

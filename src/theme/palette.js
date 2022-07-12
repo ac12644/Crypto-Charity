@@ -1,6 +1,6 @@
 export const light = {
   alternate: {
-    main: '#f7faff',
+    main: '#f4efea',
     dark: '#edf1f7',
   },
   cardShadow: 'rgba(23, 70, 161, .11)',
