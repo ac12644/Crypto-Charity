@@ -16,7 +16,6 @@ import Web3 from 'web3';
 import FundraiserContract from 'contracts/Fundraiser.json';
 
 const cc = require('cryptocompare');
-cc.setApiKey('b1827f841fe4700d11f20c459f590b44c085b90fde6843eba0a1e63bf05993f3');
 
 {/* 
 const mock = [
