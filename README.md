@@ -1,13 +1,10 @@
-
-<img src="https://images.unsplash.com/photo-1590479773265-7464e5d48118?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80" height="240" >
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="#">
     <img src="https://github.com/ac12644/Fundraiser_Dapp/raw/master/fundraise.png" alt="Logo" width="80" height="80">
   </a>
-  <h3 align="center">Put A Smile</h3>
+  <h3 align="center">Put A Smile [🚧 under-construction 🚧]</h3>
   <p align="center">
     Be the change you want to see in the world.
   </p>
