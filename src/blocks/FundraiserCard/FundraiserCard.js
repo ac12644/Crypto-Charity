@@ -10,99 +10,18 @@ import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 
 import { ProductDialog } from './components';
-import Container from 'components/Container';
 
 import Web3 from 'web3';
+import detectEthereumProvider from '@metamask/detect-provider';
 import FundraiserContract from 'contracts/Fundraiser.json';
 
 const cc = require('cryptocompare');
 
-{/* 
-const mock = [
-  {
-    image1: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-    image2: 'https://images.unsplash.com/photo-1636202339022-7d67f7447e3a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1771&q=80',
-    image3: 'https://images.unsplash.com/photo-1617450365226-9bf28c04e130?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-    image4: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-    name: 'Feeding America 1',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vulputate tempus sapien, id posuere elit ultricies quis. Etiam congue porta leo, eu auctor elit ultrices vitae. In viverra at eros quis tincidunt. Integer risus ipsum, vestibulum sed placerat id, cursus ac erat. Vivamus tristique elementum velit ac sagittis. Phasellus viverra libero eget augue elementum, eget rhoncus erat lobortis. Nullam eget sollicitudin purus. Aliquam erat volutpat. Vestibulum sit amet venenatis elit. Integer eu lorem risus. Sed non felis in libero imperdiet tempor eu eu arcu. Aenean ultrices mollis mi, ut dignissim lorem tincidunt non. Morbi malesuada eros purus, id ultrices nisi ullamcorper porta. Vestibulum cursus lacinia massa, nec malesuada est sollicitudin ac. Mauris vitae tellus porta, blandit diam sit amet, interdum magna.',
-    price: '14',
-    href: '#',
-    reviewScore: 5,
-    reviewCount: 12,
-    id: 1,
-  },
-  {
-    image1: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-    image2: 'https://images.unsplash.com/photo-1636202339022-7d67f7447e3a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1771&q=80',
-    image3: 'https://images.unsplash.com/photo-1617450365226-9bf28c04e130?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-    image4: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-    name: 'Feeding America 2',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vulputate tempus sapien, id posuere elit ultricies quis. Etiam congue porta leo, eu auctor elit ultrices vitae. In viverra at eros quis tincidunt. Integer risus ipsum, vestibulum sed placerat id, cursus ac erat. Vivamus tristique elementum velit ac sagittis. Phasellus viverra libero eget augue elementum, eget rhoncus erat lobortis. Nullam eget sollicitudin purus. Aliquam erat volutpat. Vestibulum sit amet venenatis elit. Integer eu lorem risus. Sed non felis in libero imperdiet tempor eu eu arcu. Aenean ultrices mollis mi, ut dignissim lorem tincidunt non. Morbi malesuada eros purus, id ultrices nisi ullamcorper porta. Vestibulum cursus lacinia massa, nec malesuada est sollicitudin ac. Mauris vitae tellus porta, blandit diam sit amet, interdum magna.',
-    price: '11',
-    reviewScore: 4,
-    reviewCount: 6,
-    id: 2,
-  },
-  {
-    image1: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-    image2: 'https://images.unsplash.com/photo-1636202339022-7d67f7447e3a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1771&q=80',
-    image3: 'https://images.unsplash.com/photo-1617450365226-9bf28c04e130?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-    image4: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-    name: 'Feeding America 3',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vulputate tempus sapien, id posuere elit ultricies quis. Etiam congue porta leo, eu auctor elit ultrices vitae. In viverra at eros quis tincidunt. Integer risus ipsum, vestibulum sed placerat id, cursus ac erat. Vivamus tristique elementum velit ac sagittis. Phasellus viverra libero eget augue elementum, eget rhoncus erat lobortis. Nullam eget sollicitudin purus. Aliquam erat volutpat. Vestibulum sit amet venenatis elit. Integer eu lorem risus. Sed non felis in libero imperdiet tempor eu eu arcu. Aenean ultrices mollis mi, ut dignissim lorem tincidunt non. Morbi malesuada eros purus, id ultrices nisi ullamcorper porta. Vestibulum cursus lacinia massa, nec malesuada est sollicitudin ac. Mauris vitae tellus porta, blandit diam sit amet, interdum magna.',
-    price: '8',
-    href: '#',
-    reviewScore: 5,
-    reviewCount: 8,
-    id: 3,
-  },
-  {
-    image1: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-    image2: 'https://images.unsplash.com/photo-1636202339022-7d67f7447e3a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1771&q=80',
-    image3: 'https://images.unsplash.com/photo-1617450365226-9bf28c04e130?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-    image4: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-    name: 'Feeding America 4',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vulputate tempus sapien, id posuere elit ultricies quis. Etiam congue porta leo, eu auctor elit ultrices vitae. In viverra at eros quis tincidunt. Integer risus ipsum, vestibulum sed placerat id, cursus ac erat. Vivamus tristique elementum velit ac sagittis. Phasellus viverra libero eget augue elementum, eget rhoncus erat lobortis. Nullam eget sollicitudin purus. Aliquam erat volutpat. Vestibulum sit amet venenatis elit. Integer eu lorem risus. Sed non felis in libero imperdiet tempor eu eu arcu. Aenean ultrices mollis mi, ut dignissim lorem tincidunt non. Morbi malesuada eros purus, id ultrices nisi ullamcorper porta. Vestibulum cursus lacinia massa, nec malesuada est sollicitudin ac. Mauris vitae tellus porta, blandit diam sit amet, interdum magna.',
-    price: '5',
-    reviewScore: 4,
-    reviewCount: 10,
-    id: 5,
-  },
-  {
-    image1: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-    image2: 'https://images.unsplash.com/photo-1636202339022-7d67f7447e3a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1771&q=80',
-    image3: 'https://images.unsplash.com/photo-1617450365226-9bf28c04e130?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-    image4: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-    name: 'Feeding America 1',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vulputate tempus sapien, id posuere elit ultricies quis. Etiam congue porta leo, eu auctor elit ultrices vitae. In viverra at eros quis tincidunt. Integer risus ipsum, vestibulum sed placerat id, cursus ac erat. Vivamus tristique elementum velit ac sagittis. Phasellus viverra libero eget augue elementum, eget rhoncus erat lobortis. Nullam eget sollicitudin purus. Aliquam erat volutpat. Vestibulum sit amet venenatis elit. Integer eu lorem risus. Sed non felis in libero imperdiet tempor eu eu arcu. Aenean ultrices mollis mi, ut dignissim lorem tincidunt non. Morbi malesuada eros purus, id ultrices nisi ullamcorper porta. Vestibulum cursus lacinia massa, nec malesuada est sollicitudin ac. Mauris vitae tellus porta, blandit diam sit amet, interdum magna.',
-    price: '14',
-    href: '#',
-    reviewScore: 5,
-    reviewCount: 12,
-    id: 6,
-  },
-  {
-    image1: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-    image2: 'https://images.unsplash.com/photo-1636202339022-7d67f7447e3a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1771&q=80',
-    image3: 'https://images.unsplash.com/photo-1617450365226-9bf28c04e130?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-    image4: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-    name: 'Feeding America 1',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vulputate tempus sapien, id posuere elit ultricies quis. Etiam congue porta leo, eu auctor elit ultrices vitae. In viverra at eros quis tincidunt. Integer risus ipsum, vestibulum sed placerat id, cursus ac erat. Vivamus tristique elementum velit ac sagittis. Phasellus viverra libero eget augue elementum, eget rhoncus erat lobortis. Nullam eget sollicitudin purus. Aliquam erat volutpat. Vestibulum sit amet venenatis elit. Integer eu lorem risus. Sed non felis in libero imperdiet tempor eu eu arcu. Aenean ultrices mollis mi, ut dignissim lorem tincidunt non. Morbi malesuada eros purus, id ultrices nisi ullamcorper porta. Vestibulum cursus lacinia massa, nec malesuada est sollicitudin ac. Mauris vitae tellus porta, blandit diam sit amet, interdum magna.',
-    price: '14',
-    href: '#',
-    reviewScore: 5,
-    reviewCount: 12,
-    id: 7,
-  },
-];
-*/}
-
 const FundraiserCard = ({ fundraiser }) => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const web3 = new Web3(new Web3.providers.HttpProvider('https://data-seed-prebsc-1-s1.binance.org:8545/'));
-  const [ linkToCompany, setlinkToCompany ] = useState(null);
+  const [ web3, setWeb3 ] = useState(null);
+  const [ linkToCompany, setLinkToCompany ] = useState(null);
   const [ description, setDescription ] = useState(null);
   const [ about, setAbout ] = useState(null);
   const [ images, setImages ] = useState('');
@@ -110,7 +29,7 @@ const FundraiserCard = ({ fundraiser }) => {
   const [ totalDonations, setTotalDonations ] = useState(null);
   const [ donationCount, setDonationCount ] = useState(null);
   const [ contract, setContract] = useState(null);
-  const [ accounts, setAccounts ] = useState(null);
+  const [ accounts, setAccounts ] = useState([]);
   const [ donationAmount, setDonationAmount ] = useState(null);
   const [ exchangeRate, setExchangeRate ] = useState(null);
   const [ userDonations, setUserDonations ] = useState(null);
@@ -126,70 +45,71 @@ const FundraiserCard = ({ fundraiser }) => {
 
   const init = async (fundraiser) => {
       try {
-          const fund = fundraiser
-          const networkId = await web3.eth.net.getId();
-          const deployedNetwork = FundraiserContract.networks[networkId];
-          const accounts = await web3.eth.getAccounts();
-          const instance = new web3.eth.Contract(
-            FundraiserContract.abi,
-            fund
-          );
-          setContract(instance);
-          setAccounts(accounts);
+        const fund = fundraiser;
+        const provider = await detectEthereumProvider();
+        const web3 = new Web3(provider);
+        const account = await web3.eth.getAccounts();
 
-          setFundName(await instance.methods.name().call());
-          setImages(await instance.methods.images().call());
-          setDescription(await instance.methods.description().call());
-          setAbout(await instance.methods.about().call());
-          setLinkToCompany(await instance.methods.linkToCompany().call());
+        console.log('accounts---', account);
 
-          console.log('---------data--------');
-          console.log(fundName, images, description, about, linkToCompany);
+        const instance = new web3.eth.Contract(
+          FundraiserContract.abi,
+          fund
+        );
+        setWeb3 (web3);
+        setContract (instance);
+        setAccounts (account);
+
+        console.log('----account0--',accounts[0]);
+
+        setFundName(await instance.methods.name().call());
+        setImages(await instance.methods.images().call());
+        setDescription(await instance.methods.description().call());
+        setAbout(await instance.methods.about().call());
+        setLinkToCompany(await instance.methods.linkToCompany().call());
+        const totalDonation = await instance.methods.totalDonations().call();
+
+        console.log('---------data--------');
+        console.log(fundName, images, description, about, linkToCompany);
       
-          await cc.price('ETH', ['USD'])
-            .then( prices => { 
-              exchangeRate = prices.USD; 
-              setExchangeRate(prices.USD); 
-            }).catch(console.error);
+        await cc.price('ETH', ['USD'])
+          .then( prices => { 
+            exchangeRate = prices.USD; 
+            setExchangeRate(prices.USD); 
+          }).catch(console.error);
         
-          const eth = web3.utils.fromWei(totalDonations, 'ether');
-          const dollarDonationAmount = exchangeRate * eth;
-          setTotalDonations(dollarDonationAmount.toFixed(2));
-          const userDonations = instance.methods.myDonations().call({ from: accounts[0] });
-          console.log(userDonations);
-          setUserDonations(userDonations);
-          const isUser = accounts[0];
-          const isOwner = await instance.methods.owner().call();
-          if (isOwner === accounts[0]) {
-              setIsOwner(true);
-          }
-       } catch (error) {
+        const eth = web3.utils.fromWei(
+          web3.utils.toBN(totalDonation),
+          'ether'
+        );
+
+        console.log('eth--',eth)
+
+        const dollarDonationAmount = exchangeRate * eth;
+        setTotalDonations(dollarDonationAmount.toFixed(2));
+        
+        const userDonations = instance.methods.myDonations().call({ from: accounts[0] });
+        console.log(userDonations);
+        setUserDonations(userDonations);
+        const isUser = accounts[0];
+        const isOwner = await instance.methods.owner().call();
+        if (isOwner === accounts[0]) {
+            setIsOwner(true);
+        }
+      } catch (error) {
           console.error(error);
       }
   }
   window.ethereum.on('accountsChanged', function (accounts) {
       window.location.reload()
-    })
+  })
+
   const handleOpen = () => {
       setOpen(true);
   };
   const handleClose = () => {
       setOpen(false);
   };
-
-  const submitFunds = async () => {
-    const fundraisercontract = contract
-    const ethRate = exchangeRate
-    const ethTotal = donationAmount / ethRate
-    const donation = web3.utils.toWei(ethTotal.toString())
-
-    await contract.methods.donate().send({
-      from: accounts[0],
-      value: donation,
-      gas: 650000
-    })
-    setOpen(false);
-  }
 
   const renderDonationsList = () => {
     var donations = userDonations
@@ -353,21 +273,25 @@ const FundraiserCard = ({ fundraiser }) => {
           </Stack>
         </Card>
         <ProductDialog 
-          open={open} 
-          key={fundraiser}
-          onClose={() => setOpen(false)} 
-          images={images}
-          name={fundName}
-          description={description}
-          about={about}
-          linkToCompany={linkToCompany}
+          open = {open} 
+          key = {fundraiser}
+          onClose = {() => setOpen(false)} 
+          web3 = {web3}
+          exchangeRate = {exchangeRate}
+          totalDonations = {totalDonations}
+          images = {images}
+          name = {fundName}
+          description = {description}
+          about = {about}
+          linkToCompany = {linkToCompany}
+          contract = {contract}
+          accounts = {accounts[0]}
         />
       </Box>
     </Grid>
- 
   );
 };
 FundraiserCard.propTypes = {
-  fundraiser: PropTypes.func,
+
 }
 export default FundraiserCard;

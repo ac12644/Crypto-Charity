@@ -5,12 +5,25 @@ import { alpha, useTheme } from '@mui/material/styles';
 import { Box, Stack, Typography, Button, IconButton } from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
 
-const cc = require('cryptocompare');
-cc.setApiKey(process.env.CC_API);
-
-const Details = ({ name, description, about, price, linkToCompany }) => {
+const Details = ({ name, description, about, totalDonations, linkToCompany, web3, exchangeRate, contract, accounts }) => {
   const theme = useTheme();
-  const [amount, setAmount] = useState(null);
+  const [ amount, setAmount ] = useState(5);
+  
+  const submitFunds = async () => {
+    const ethTotal = amount / exchangeRate;
+    console.log('total', ethTotal);
+    
+    const donation = web3.utils.toWei(ethTotal.toString());
+    console.log('donation', donation);
+    
+    console.log('contract', contract);
+    
+    await contract.methods.donate().send({
+      from: accounts,
+      value: donation,
+      gas: 650000
+    })
+  }
 
   return (
     <Box>
@@ -36,7 +49,7 @@ const Details = ({ name, description, about, price, linkToCompany }) => {
         justifyContent={'space-between'}
       >
         <Typography display= {'flex'} alignItems={'center'} variant={'h6'} fontWeight={700}>
-          Raised: {price} 1 USD
+          Raised: {totalDonations}
         </Typography>
         <Box display={'flex'} alignItems={'center'}>
           <Box display={'flex'} alignItems={'center'}>
@@ -74,7 +87,7 @@ const Details = ({ name, description, about, price, linkToCompany }) => {
           </Typography>
         </Typography>
         <Stack direction={'row'} spacing={1} marginTop={0.5}>
-          {['5', '10', '15', '20', '30'].map((item) => (
+          {[5, 10, 15, 20, 30].map((item) => (
             <Box
               key={item}
               onClick={() => setAmount(item)}
@@ -99,6 +112,7 @@ const Details = ({ name, description, about, price, linkToCompany }) => {
           variant={'contained'}
           color={'primary'}
           size={'large'}
+          onClick={submitFunds}
           fullWidth
         >
            <svg
@@ -157,16 +171,19 @@ const Details = ({ name, description, about, price, linkToCompany }) => {
           </svg>
         </Button>
       </Stack>
-      
     </Box>
   );
 };
 Details.propTypes = {
-  name: PropTypes.string,
-  description: PropTypes.string,
-  about: PropTypes.string,
-  price: PropTypes.string,
-  linkToCompany: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  about: PropTypes.string.isRequired,
+  linkToCompany: PropTypes.string.isRequired,
+  web3: PropTypes.object.isRequired,
+  totalDonations: PropTypes.string.isRequired,
+  exchangeRate: PropTypes.number.isRequired,
+  contract: PropTypes.object.isRequired,
+  accounts: PropTypes.string.isRequired,
 }
 
 export default Details;

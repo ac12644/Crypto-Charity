@@ -6,7 +6,7 @@ import Dialog from '@mui/material/Dialog';
 
 import { Image, Details } from './components';
 
-const ProductDialog = ({ onClose, open, name, images, description, about, linkToCompany }) => {
+const ProductDialog = ({ onClose, open, web3, exchangeRate, totalDonations, name, images, description, about, linkToCompany, contract, accounts }) => {
   return (
     <Dialog onClose={onClose} open={open} maxWidth={'lg'}>
       <Box paddingY={{ xs: 1, sm: 2 }} paddingX={{ xs: 2, sm: 4 }}>
@@ -44,10 +44,15 @@ const ProductDialog = ({ onClose, open, name, images, description, about, linkTo
             </Grid>
             <Grid item xs={12} md={6}>
               <Details 
-                name={name}
-                description={description}
-                about={about}
-                linkToCompany={linkToCompany}
+                name = {name}
+                description = {description}
+                about = {about}
+                linkToCompany = {linkToCompany}
+                web3 = {web3}
+                exchangeRate = {exchangeRate}
+                contract = {contract} 
+                accounts = {accounts}
+                totalDonations = {totalDonations}
               />
             </Grid>
           </Grid>
@@ -60,11 +65,14 @@ const ProductDialog = ({ onClose, open, name, images, description, about, linkTo
 ProductDialog.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
-  images: PropTypes.string,
-  name: PropTypes.string,
-  description: PropTypes.string,
-  about: PropTypes.string,
-  linkToCompany: PropTypes.string,
+  web3: PropTypes.object.isRequired,
+  exchangeRate: PropTypes.number.isRequired,
+  totalDonations: PropTypes.string.isRequired,
+  images: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  about: PropTypes.string.isRequired,
+  linkToCompany: PropTypes.string.isRequired,
 };
 
 export default ProductDialog;
