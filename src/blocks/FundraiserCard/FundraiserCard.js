@@ -9,7 +9,7 @@ import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 
-import { ProductDialog } from './components';
+import { ProjectDialog } from './components';
 
 import Web3 from 'web3';
 import detectEthereumProvider from '@metamask/detect-provider';
@@ -276,7 +276,7 @@ const FundraiserCard = ({ fundraiser }) => {
             </Button>
           </Stack>
         </Card>
-        <ProductDialog 
+        <ProjectDialog 
           open = {open} 
           key = {fundraiser}
           onClose = {() => setOpen(false)} 
