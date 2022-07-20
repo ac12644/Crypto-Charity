@@ -27,6 +27,7 @@ const FundraiserCard = ({ fundraiser }) => {
   const [ images, setImages ] = useState('');
   const [ fundName, setFundName ] = useState(null);
   const [ totalDonations, setTotalDonations ] = useState(null);
+  const [ totalDonationsEth, setTotalDonationsEth ] = useState(null);
   const [ donationCount, setDonationCount ] = useState(null);
   const [ contract, setContract] = useState(null);
   const [ accounts, setAccounts ] = useState([]);
@@ -83,7 +84,10 @@ const FundraiserCard = ({ fundraiser }) => {
           'ether'
         );
 
+        setTotalDonationsEth(parseFloat(eth).toFixed(4))
+
         console.log('eth--',eth)
+        console.log('totalDonationsEth', totalDonationsEth)
 
         const dollarDonationAmount = exchangeRate * eth;
         setTotalDonations(dollarDonationAmount.toFixed(2));
@@ -139,7 +143,7 @@ const FundraiserCard = ({ fundraiser }) => {
     })
   }
 
-  const withdrawalFunds = async () => {
+  const withdrawFunds = async () => {
     await contract.methods.withdraw().send({
       from: accounts[0],
     })
@@ -279,6 +283,7 @@ const FundraiserCard = ({ fundraiser }) => {
           web3 = {web3}
           exchangeRate = {exchangeRate}
           totalDonations = {totalDonations}
+          totalDonationsEth = {totalDonationsEth}
           images = {images}
           name = {fundName}
           description = {description}
@@ -286,6 +291,7 @@ const FundraiserCard = ({ fundraiser }) => {
           linkToCompany = {linkToCompany}
           contract = {contract}
           accounts = {accounts[0]}
+          withdrawFunds = {withdrawFunds}
         />
       </Box>
     </Grid>

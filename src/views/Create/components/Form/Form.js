@@ -17,7 +17,6 @@ import Web3 from 'web3';
 import detectEthereumProvider from '@metamask/detect-provider';
 import FundraiserFactoryContract from 'contracts/FundraiserFactory.json';
 import { create as ipfsHttpClient } from 'ipfs-http-client';
-const all = require('it-all');
 
 const validationSchema = yup.object({
   name: yup

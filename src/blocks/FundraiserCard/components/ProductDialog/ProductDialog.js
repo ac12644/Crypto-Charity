@@ -6,7 +6,7 @@ import Dialog from '@mui/material/Dialog';
 
 import { Image, Details } from './components';
 
-const ProductDialog = ({ onClose, open, web3, exchangeRate, totalDonations, name, images, description, about, linkToCompany, contract, accounts }) => {
+const ProductDialog = ({ onClose, open, web3, exchangeRate, totalDonations, totalDonationsEth, name, images, description, about, linkToCompany, contract, accounts, withdrawFunds }) => {
   return (
     <Dialog onClose={onClose} open={open} maxWidth={'lg'}>
       <Box paddingY={{ xs: 1, sm: 2 }} paddingX={{ xs: 2, sm: 4 }}>
@@ -53,6 +53,8 @@ const ProductDialog = ({ onClose, open, web3, exchangeRate, totalDonations, name
                 contract = {contract} 
                 accounts = {accounts}
                 totalDonations = {totalDonations}
+                totalDonationsEth = {totalDonationsEth}
+                withdrawFunds = {withdrawFunds}
               />
             </Grid>
           </Grid>
@@ -68,11 +70,13 @@ ProductDialog.propTypes = {
   web3: PropTypes.object.isRequired,
   exchangeRate: PropTypes.number.isRequired,
   totalDonations: PropTypes.string.isRequired,
+  totalDonationsEth: PropTypes.string.isRequired,
   images: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   about: PropTypes.string.isRequired,
   linkToCompany: PropTypes.string.isRequired,
+  withdrawFunds: PropTypes.func.isRequired,
 };
 
 export default ProductDialog;
