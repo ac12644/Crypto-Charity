@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+
 import { alpha, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -28,19 +28,18 @@ const FundraiserCard = ({ fundraiser }) => {
   const [ fundName, setFundName ] = useState(null);
   const [ totalDonations, setTotalDonations ] = useState(null);
   const [ totalDonationsEth, setTotalDonationsEth ] = useState(null);
-  const [ donationCount, setDonationCount ] = useState(null);
   const [ contract, setContract] = useState(null);
   const [ accounts, setAccounts ] = useState([]);
   const [ donationAmount, setDonationAmount ] = useState(null);
   const [ exchangeRate, setExchangeRate ] = useState(null);
   const [ userDonations, setUserDonations ] = useState(null);
   const [ isOwner, setIsOwner ] = useState(false);
-  const [ newBeneficiary, setNewBeneficiary ] = useState(null);
   const ethAmount =  (donationAmount / exchangeRate || 0).toFixed(4);
 
   useEffect (() => {
       if (fundraiser) {
           init (fundraiser);
+          renderDonationsList();
       }
   }, [fundraiser]);
 
@@ -86,14 +85,14 @@ const FundraiserCard = ({ fundraiser }) => {
 
         setTotalDonationsEth(parseFloat(eth).toFixed(4))
 
-        console.log('eth--',eth)
-        console.log('totalDonationsEth', totalDonationsEth)
+        console.log('eth--',eth);
+        console.log('totalDonationsEth', totalDonationsEth);
 
         const dollarDonationAmount = exchangeRate * eth;
         setTotalDonations(dollarDonationAmount.toFixed(2));
         
-        const userDonations = instance.methods.myDonations().call({ from: accounts[0] });
-        console.log(userDonations);
+        const userDonations = await instance.methods.myDonations().call({ from: accounts[0] });
+        console.log('MY DONATIONS', userDonations);
         setUserDonations(userDonations);
         const isUser = accounts[0];
         const isOwner = await instance.methods.owner().call();
@@ -107,56 +106,12 @@ const FundraiserCard = ({ fundraiser }) => {
   window.ethereum.on('accountsChanged', function (accounts) {
       window.location.reload()
   })
-
-  const handleOpen = () => {
-      setOpen(true);
-  };
-  const handleClose = () => {
-      setOpen(false);
-  };
-
-  const renderDonationsList = () => {
-    var donations = userDonations
-    if (donations === null) {return null}
-
-    const totalDonations = donations.values.length
-    let donationList = []
-    var i
-    for (i = 0; i < totalDonations; i++) {
-      const ethAmount = web3.utils.fromWei(donations.values[i])
-      const userDonation = exchangeRate * ethAmount
-      const donationDate = donations.dates[i]
-      donationList.push({ donationAmount: userDonation.toFixed(2), date: donationDate})
-    }
-
-    return donationList.map((donation) => {
-      return (
-        <div className="donation-list">
-          <p>${donation.donationAmount}</p>
-          <Button variant="contained" color="primary">
-            <Link className="donation-receipt-link" to={{ pathname: '/receipts', state: { fund: fundName, donation: donation.donationAmount, date: donation.date} }}>
-              Request Receipt
-            </Link>
-          </Button>
-        </div>
-      )
-    })
-  }
-
   const withdrawFunds = async () => {
     await contract.methods.withdraw().send({
       from: accounts[0],
     })
 
     alert('Funds Withdrawn!')
-  }
-
-  const setBeneficiary = async () => {
-    await contract.methods.setBeneficiary(beneficiary).send({
-      from: accounts[0],
-    })
-
-    alert(`Fundraiser Beneficiary Changed`)
   }
 
   return ( 
@@ -292,12 +247,11 @@ const FundraiserCard = ({ fundraiser }) => {
           contract = {contract}
           accounts = {accounts[0]}
           withdrawFunds = {withdrawFunds}
+          isOwner = {isOwner}
         />
       </Box>
     </Grid>
   );
 };
-FundraiserCard.propTypes = {
 
-}
 export default FundraiserCard;

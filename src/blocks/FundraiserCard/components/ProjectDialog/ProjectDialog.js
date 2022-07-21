@@ -6,7 +6,7 @@ import Dialog from '@mui/material/Dialog';
 
 import { Image, Details } from './components';
 
-const ProjectDialog = ({ onClose, open, web3, exchangeRate, totalDonations, totalDonationsEth, name, images, description, about, linkToCompany, contract, accounts, withdrawFunds }) => {
+const ProjectDialog = ({ onClose, open, web3, exchangeRate, totalDonations, totalDonationsEth, name, images, description, about, linkToCompany, contract, accounts, withdrawFunds, isOwner }) => {
   return (
     <Dialog onClose={onClose} open={open} maxWidth={'lg'}>
       <Box paddingY={{ xs: 1, sm: 2 }} paddingX={{ xs: 2, sm: 4 }}>
@@ -55,6 +55,7 @@ const ProjectDialog = ({ onClose, open, web3, exchangeRate, totalDonations, tota
                 totalDonations = {totalDonations}
                 totalDonationsEth = {totalDonationsEth}
                 withdrawFunds = {withdrawFunds}
+                isOwner = {isOwner}
               />
             </Grid>
           </Grid>
@@ -77,6 +78,7 @@ ProjectDialog.propTypes = {
   about: PropTypes.string.isRequired,
   linkToCompany: PropTypes.string.isRequired,
   withdrawFunds: PropTypes.func.isRequired,
+  isOwner: PropTypes.bool.isRequired
 };
 
 export default ProjectDialog;

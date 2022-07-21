@@ -7,7 +7,7 @@ import { Box, Stack, Typography, Button, IconButton, Tooltip } from '@mui/materi
 import LinkIcon from '@mui/icons-material/Link';
 import { Favorite, ManageAccounts, CurrencyExchange } from '@mui/icons-material';
 
-const Details = ({ name, description, about, totalDonations, totalDonationsEth, linkToCompany, web3, exchangeRate, contract, accounts, withdrawFunds }) => {
+const Details = ({ name, description, about, totalDonations, totalDonationsEth, linkToCompany, web3, exchangeRate, contract, accounts, withdrawFunds, isOwner }) => {
   const theme = useTheme();
   const [ amount, setAmount ] = useState(5);
   const [  open, setOpen ] = useState(false);
@@ -100,34 +100,38 @@ const Details = ({ name, description, about, totalDonations, totalDonationsEth, 
              <Favorite/>
           </Button>
         </Tooltip>
-        <Tooltip title='Change Beneficiary'>
-          <Button
-            color={'primary'}
-            size={'large'}
-            fullWidth
-            sx={{ bgcolor: alpha(theme.palette.primary.light, 0.1) }}
-            onClick={() => setOpen(true)}
-          >
-            <ManageAccounts/>
-          </Button>
-        </Tooltip>
+        {isOwner && 
+          <Tooltip title='Change Beneficiary'>
+            <Button
+              color={'primary'}
+              size={'large'}
+              fullWidth
+              sx={{ bgcolor: alpha(theme.palette.primary.light, 0.1) }}
+              onClick={() => setOpen(true)}
+            >
+              <ManageAccounts/>
+            </Button>
+          </Tooltip>
+        }
         <Beneficiary
           onClose = {() => setOpen(false)}
           open = {open}
           accounts = {accounts}
           contract = {contract}
         />
-        <Tooltip title='Withdraw'>
-          <Button
-            color={'primary'}
-            size={'large'}
-            fullWidth
-            sx={{ bgcolor: alpha(theme.palette.primary.light, 0.1) }}
-            onClick={withdrawFunds}
-          >
-            <CurrencyExchange/>
-          </Button>
-        </Tooltip>
+        {isOwner && 
+          <Tooltip title='Withdraw'>
+            <Button
+              color={'primary'}
+              size={'large'}
+              fullWidth
+              sx={{ bgcolor: alpha(theme.palette.primary.light, 0.1) }}
+              onClick={withdrawFunds}
+            >
+              <CurrencyExchange/>
+            </Button>
+          </Tooltip>
+        }
       </Stack>
     </Box>
   );
@@ -144,6 +148,7 @@ Details.propTypes = {
   contract: PropTypes.object.isRequired,
   accounts: PropTypes.string.isRequired,
   withdrawFunds: PropTypes.func.isRequired,
+  isOwner: PropTypes.bool.isRequired
 }
 
 export default Details;

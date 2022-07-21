@@ -16,8 +16,8 @@ import MenuPopover from 'components/MenuPopover';
 
 const MENU_OPTIONS = [
   {
-    label: 'Assets Owned',
-    route: '/assets',
+    label: 'My Donations',
+    route: '/my-donations',
   },
 ];
 
