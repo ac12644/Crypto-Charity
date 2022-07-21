@@ -34,12 +34,12 @@ const FundraiserCard = ({ fundraiser }) => {
   const [ exchangeRate, setExchangeRate ] = useState(null);
   const [ userDonations, setUserDonations ] = useState(null);
   const [ isOwner, setIsOwner ] = useState(false);
+  
   const ethAmount =  (donationAmount / exchangeRate || 0).toFixed(4);
 
   useEffect (() => {
       if (fundraiser) {
           init (fundraiser);
-          renderDonationsList();
       }
   }, [fundraiser]);
 

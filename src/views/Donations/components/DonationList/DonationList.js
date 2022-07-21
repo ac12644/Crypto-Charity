@@ -6,7 +6,7 @@ import FundraiserContract from 'contracts/Fundraiser.json';
 
 const cc = require('cryptocompare');
 
-const DonationList = ({fundraiser}) => {
+const DonationList = () => {
     const [ web3, setWeb3 ] = useState(null);
     const [ contract, setContract] = useState(null);
     const [ accounts, setAccounts ] = useState([]);
@@ -14,11 +14,10 @@ const DonationList = ({fundraiser}) => {
     const [ exchangeRate, setExchangeRate ] = useState(null);
 
     useEffect (() => {
-  
-        if (fundraiser) {
-            init (fundraiser);
-        }
-    }, [fundraiser]);
+
+            init();
+        
+    }, []);
   
     const init = async (fundraiser) => {
         try {
@@ -33,14 +32,18 @@ const DonationList = ({fundraiser}) => {
               FundraiserContract.abi,
               fund
             );
+            
             setWeb3 (web3);
             setContract (instance);
             setAccounts (account);
 
-          console.log('accounts---', account);
-          const userDonations = instance.methods.myDonations().call({ from: accounts[0] });
-          console.log(userDonations);
-          setUserDonations(userDonations);
+            console.log('web3--', web3, 'contract--', contract, 'accounts---', account);
+
+          const donations = await instance.methods.myDonations().call({ from: accounts[0] });
+          console.log('donations--', donations);
+
+          console.log('userDonations',donations);
+          setUserDonations(donations);
 
           await cc.price('ETH', ['USD'])
           .then( prices => { 
@@ -52,36 +55,26 @@ const DonationList = ({fundraiser}) => {
             console.error(error);
         }
     }
-    
-    window.ethereum.on('accountsChanged', function (accounts) {
-        window.location.reload()
-    })
 
-    var donations = userDonations
-    if (donations === null) {return null}
+    var donations = userDonations;
+    if (donations === null) {
+        return null;
+    };
 
-    const totalDonations = donations.values.length
-    let donationList = []
-    var i
+    const totalDonations = donations.length;
+    let donationList = [];
+    var i;
     for (i = 0; i < totalDonations; i++) {
-      const ethAmount = web3.utils.fromWei(donations.values[i])
-      const userDonation = exchangeRate * ethAmount
-      const donationDate = donations.dates[i]
-      donationList.push({ donationAmount: userDonation.toFixed(2), date: donationDate})
+        const ethAmount = web3.utils.fromWei(donations.values[i], 'ether');
+        const userDonation = exchangeRate * ethAmount;
+        const donationDate = donations.dates[i];
+        donationList.push({ donationAmount: userDonation.toFixed(2), date: donationDate });
     }
 
     return donationList.map((donation) => {
       return (
         <div className="donation-list">
-          <p>${donation.donationAmount}</p>
-          <Button variant="contained" color="primary">
-            <Link className="donation-receipt-link" 
-              to = {{ pathname: '/receipts', state: { fund: fundName, donation: donation.donationAmount, date: donation.date } 
-              }}
-            >
-              Request Receipt
-            </Link>
-          </Button>
+          <h1>list</h1>
         </div>
       )
     })

@@ -79,7 +79,6 @@ contract Fundraiser is Ownable {
       values[i] = donation.value;
       dates[i] = donation.date;
     }
-
     return (values, dates);
   }
 
