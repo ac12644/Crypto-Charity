@@ -50,21 +50,21 @@ const mock = [
   },
 ];
 
-const PortfolioGrid = ({data=[], buttonFunc, buttonName}) => {
+const PortfolioGrid = ({ data = [], buttonFunc, buttonName }) => {
   const theme = useTheme();
   return (
     <Box>
       <Grid container spacing={4}>
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={4}
-            data-aos={'fade-up'}
-            data-aos-offset={100}
-            data-aos-duration={600}
-          >
-            <Box display={'block'} width={1} height={1}>
+        <Grid
+          item
+          xs={12}
+          sm={6}
+          md={4}
+          data-aos={'fade-up'}
+          data-aos-offset={100}
+          data-aos-duration={600}
+        >
+          <Box display={'block'} width={1} height={1}>
             {mock.map((item, i) => (
               <Box
                 key={i}
@@ -98,7 +98,7 @@ const PortfolioGrid = ({data=[], buttonFunc, buttonName}) => {
                       borderRadius={2}
                     >
                       <Typography sx={{ fontWeight: 600 }}>
-                       raised ETH
+                        raised ETH
                       </Typography>
                     </Box>
                     <Box
@@ -154,7 +154,7 @@ const PortfolioGrid = ({data=[], buttonFunc, buttonName}) => {
                       <LinkIcon />
                     </Box>
                     <Typography variant={'subtitle2'} color="text.secondary">
-                      <Link href={item.address} underline='none'>
+                      <Link href={item.address} underline="none">
                         Link to NFT
                       </Link>
                     </Typography>
@@ -181,10 +181,9 @@ const PortfolioGrid = ({data=[], buttonFunc, buttonName}) => {
                   </CardActions>
                 </CardContent>
               </Box>
-                 ))}
-            </Box>
-          </Grid>
-     
+            ))}
+          </Box>
+        </Grid>
       </Grid>
     </Box>
   );
@@ -197,5 +196,3 @@ PortfolioGrid.propTypes = {
 };
 
 export default PortfolioGrid;
-
-

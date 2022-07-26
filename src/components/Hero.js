@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Container, Box, Typography} from '@mui/material';
+import { Container, Box, Typography } from '@mui/material';
 
-const Hero = ({ title, heading, subtitle, image  }) => {
-
+const Hero = ({ title, heading, subtitle, image }) => {
   useEffect(() => {
     const jarallaxInit = async () => {
       const jarallaxElems = document.querySelectorAll('.jarallax');
@@ -27,7 +26,7 @@ const Hero = ({ title, heading, subtitle, image  }) => {
       display={'flex'}
       alignItems={'center'}
       id="agency__portfolio-item--js-scroll"
-    >  
+    >
       <Box
         className={'jarallax-img'}
         sx={{
@@ -42,38 +41,38 @@ const Hero = ({ title, heading, subtitle, image  }) => {
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
-          backgroundImage:`url(${image})`,
+          backgroundImage: `url(${image})`,
         }}
       />
-         <Container position={'relative'} zindex={3}>
-            <Typography
-              sx={{
-                textTransform: 'uppercase',
-                fontWeight: 'medium',
-              }}
-              gutterBottom
-              align={'center'}
-            >
-              {title}
-            </Typography>
-            <Box marginBottom={2}>
-              <Typography
-                variant="h2"
-                align={'center'}
-                sx={{
-                  fontWeight: 700,
-                }}
-              >
-                {heading}
-              </Typography>
-            </Box>
-            <Box>
-              <Typography variant="h6" align={'center'}>
-                {subtitle}
-              </Typography>
-            </Box>
-          </Container>
-     </Box>
+      <Container position={'relative'} zindex={3}>
+        <Typography
+          sx={{
+            textTransform: 'uppercase',
+            fontWeight: 'medium',
+          }}
+          gutterBottom
+          align={'center'}
+        >
+          {title}
+        </Typography>
+        <Box marginBottom={2}>
+          <Typography
+            variant="h2"
+            align={'center'}
+            sx={{
+              fontWeight: 700,
+            }}
+          >
+            {heading}
+          </Typography>
+        </Box>
+        <Box>
+          <Typography variant="h6" align={'center'}>
+            {subtitle}
+          </Typography>
+        </Box>
+      </Container>
+    </Box>
   );
 };
 Hero.propTypes = {
