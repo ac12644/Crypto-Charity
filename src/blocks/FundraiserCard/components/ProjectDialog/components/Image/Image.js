@@ -24,7 +24,7 @@ const Image = ({ images, name }) => {
 };
 Image.propTypes = {
   images: PropTypes.string,
-  name: PropTypes.string
+  name: PropTypes.string,
 };
 
 export default Image;

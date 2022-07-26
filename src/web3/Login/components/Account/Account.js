@@ -1,18 +1,18 @@
 import { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
-import { 
-  Box, 
-  Divider, 
-  Typography, 
-  Stack, 
-  MenuItem, 
-  Avatar, 
-  Link, 
-  IconButton 
+import {
+  Box,
+  Divider,
+  Typography,
+  Stack,
+  MenuItem,
+  Avatar,
+  Link,
+  IconButton,
 } from '@mui/material';
 
-import MenuPopover from 'components/MenuPopover';  
+import MenuPopover from 'components/MenuPopover';
 
 const MENU_OPTIONS = [
   {
@@ -52,7 +52,7 @@ function Account({ address, icon, handleLogout }) {
           }),
         }}
       >
-        <Avatar src={icon} alt='icon' />
+        <Avatar src={icon} alt="icon" />
       </IconButton>
       <MenuPopover
         open={Boolean(open)}
@@ -78,7 +78,12 @@ function Account({ address, icon, handleLogout }) {
 
         <Stack sx={{ p: 1 }}>
           {MENU_OPTIONS.map((option) => (
-            <MenuItem key={option.label} component={Link} href={option.route} onClick={handleClose}>
+            <MenuItem
+              key={option.label}
+              component={Link}
+              href={option.route}
+              onClick={handleClose}
+            >
               {option.label}
             </MenuItem>
           ))}
@@ -94,10 +99,10 @@ function Account({ address, icon, handleLogout }) {
   );
 }
 
-Account.propTypes =  {
+Account.propTypes = {
   address: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
-  handleLogout: PropTypes.func.isRequired
-}
+  handleLogout: PropTypes.func.isRequired,
+};
 
 export default Account;

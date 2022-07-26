@@ -6,7 +6,25 @@ import Dialog from '@mui/material/Dialog';
 
 import { Image, Details } from './components';
 
-const ProjectDialog = ({ onClose, open, web3, exchangeRate, totalDonations, totalDonationsEth, name, images, description, about, linkToCompany, contract, accounts, withdrawFunds, isOwner }) => {
+const ProjectDialog = ({
+  onClose,
+  open,
+  web3,
+  exchangeRate,
+  totalDonations,
+  totalDonationsEth,
+  name,
+  images,
+  description,
+  about,
+  linkToCompany,
+  contract,
+  accounts,
+  withdrawFunds,
+  isOwner,
+  donationList,
+  userDonations,
+}) => {
   return (
     <Dialog onClose={onClose} open={open} maxWidth={'lg'}>
       <Box paddingY={{ xs: 1, sm: 2 }} paddingX={{ xs: 2, sm: 4 }}>
@@ -37,25 +55,23 @@ const ProjectDialog = ({ onClose, open, web3, exchangeRate, totalDonations, tota
         <Box paddingY={2}>
           <Grid container spacing={{ xs: 2, md: 4 }}>
             <Grid item xs={12} md={6}>
-              <Image 
-                images={images}
-                name={name}
-              />
+              <Image images={images} name={name} />
             </Grid>
             <Grid item xs={12} md={6}>
-              <Details 
-                name = {name}
-                description = {description}
-                about = {about}
-                linkToCompany = {linkToCompany}
-                web3 = {web3}
-                exchangeRate = {exchangeRate}
-                contract = {contract} 
-                accounts = {accounts}
-                totalDonations = {totalDonations}
-                totalDonationsEth = {totalDonationsEth}
-                withdrawFunds = {withdrawFunds}
-                isOwner = {isOwner}
+              <Details
+                name={name}
+                description={description}
+                about={about}
+                linkToCompany={linkToCompany}
+                web3={web3}
+                exchangeRate={exchangeRate}
+                contract={contract}
+                accounts={accounts}
+                totalDonations={totalDonations}
+                totalDonationsEth={totalDonationsEth}
+                withdrawFunds={withdrawFunds}
+                isOwner={isOwner}
+                userDonations={userDonations}
               />
             </Grid>
           </Grid>
@@ -68,17 +84,17 @@ const ProjectDialog = ({ onClose, open, web3, exchangeRate, totalDonations, tota
 ProjectDialog.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
-  web3: PropTypes.object.isRequired,
-  exchangeRate: PropTypes.number.isRequired,
-  totalDonations: PropTypes.string.isRequired,
-  totalDonationsEth: PropTypes.string.isRequired,
+  web3: PropTypes.object,
+  exchangeRate: PropTypes.number,
+  totalDonations: PropTypes.string,
+  totalDonationsEth: PropTypes.string,
   images: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   about: PropTypes.string.isRequired,
   linkToCompany: PropTypes.string.isRequired,
   withdrawFunds: PropTypes.func.isRequired,
-  isOwner: PropTypes.bool.isRequired
+  isOwner: PropTypes.bool.isRequired,
 };
 
 export default ProjectDialog;

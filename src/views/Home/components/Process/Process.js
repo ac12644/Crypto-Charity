@@ -15,20 +15,17 @@ const mock = [
     title: '0% Fees',
     subtitle:
       'Raising capital is usually very expensive. Not anymore! Our platform will allow you to raise the needed capital without losing even a single share.',
-    icon: <CurrencyBitcoinIcon/> ,
+    icon: <CurrencyBitcoinIcon />,
   },
   {
     title: 'Get funding',
-    subtitle:
-      'Accept ethereum transcations directly to your own wallet.',
-    icon: <AccountBalanceWalletIcon/>
-    ,
+    subtitle: 'Accept ethereum transcations directly to your own wallet.',
+    icon: <AccountBalanceWalletIcon />,
   },
   {
     title: 'Make donation',
-    subtitle:
-      'Grow with projects you support.',
-    icon: <VolunteerActivismIcon/>
+    subtitle: 'Grow with projects you support.',
+    icon: <VolunteerActivismIcon />,
   },
 ];
 
@@ -62,7 +59,8 @@ const Process = () => {
           color={'text.secondary'}
           align={'center'}
         >
-          Our goal is to create a space that will allow you to manage your collection in the most efficient and effective way.
+          Our goal is to create a space that will allow you to manage your
+          collection in the most efficient and effective way.
           <br />
           Using the new potential of the world of cryptocurrencies.
         </Typography>

@@ -10,23 +10,25 @@ import Hero from 'components/Hero';
 
 const Donations = () => {
   const theme = useTheme();
-  
+
   return (
     <Main>
       <Container>
         <Hero
-          image={'https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1738&q=80'}
+          image={
+            'https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1738&q=80'
+          }
           title={'My Donations'}
           heading={`Projects you've supported`}
-          subtitle={'Alone we can do so little, together we can do so much. - Helen Keller'}
+          subtitle={
+            'Alone we can do so little, together we can do so much. - Helen Keller'
+          }
         />
       </Container>
       <Container paddingY={3}>
-        <DonationList/>
+        <DonationList />
       </Container>
-      <Container>
-  
-      </Container>
+      <Container></Container>
       <Box
         position={'relative'}
         marginTop={{ xs: 4, md: 6 }}

@@ -75,6 +75,7 @@
     "react-visibility-sensor": "^5.1.1",
     "slick-carousel": "^1.8.1",
     "solidity-coverage": "^0.7.21",
+    "truffle": "^5.5.23",
     "web3": "^1.7.4",
     "web3modal": "^1.9.8",
     "yup": "^0.32.11"

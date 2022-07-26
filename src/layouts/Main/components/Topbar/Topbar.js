@@ -37,23 +37,20 @@ const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
         />
       </Box>
       <Box sx={{ display: { xs: 'none', md: 'flex' } }} alignItems={'center'}>
-         <Box>
-           <NavItem
-             items={pages}
-             colorInvert={colorInvert}
-           />
-         </Box>
-         <Box marginLeft={4}>
-          <Login/>
-         </Box>
-         <Box marginLeft={4}>
-           <ThemeModeToggler />
-         </Box>
+        <Box>
+          <NavItem items={pages} colorInvert={colorInvert} />
+        </Box>
+        <Box marginLeft={4}>
+          <Login />
+        </Box>
+        <Box marginLeft={4}>
+          <ThemeModeToggler />
+        </Box>
       </Box>
-      
+
       <Box sx={{ display: { xs: 'flex', md: 'none' } }} alignItems={'center'}>
         <Box>
-          <Login/>
+          <Login />
         </Box>
         <Box marginLeft={1}>
           <Button

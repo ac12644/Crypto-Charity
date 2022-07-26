@@ -12,8 +12,8 @@ const supportedChains = [
       name: 'Ethereum',
       decimals: '18',
       contractAddress: '',
-      balance: ''
-    }
+      balance: '',
+    },
   },
   {
     name: 'Ethereum Ropsten',
@@ -28,8 +28,8 @@ const supportedChains = [
       name: 'Ethereum',
       decimals: '18',
       contractAddress: '',
-      balance: ''
-    }
+      balance: '',
+    },
   },
   {
     name: 'Ethereum Rinkeby',
@@ -44,8 +44,8 @@ const supportedChains = [
       name: 'Ethereum',
       decimals: '18',
       contractAddress: '',
-      balance: ''
-    }
+      balance: '',
+    },
   },
   {
     name: 'Ethereum Görli',
@@ -60,8 +60,8 @@ const supportedChains = [
       name: 'Ethereum',
       decimals: '18',
       contractAddress: '',
-      balance: ''
-    }
+      balance: '',
+    },
   },
   {
     name: 'RSK Mainnet',
@@ -76,8 +76,8 @@ const supportedChains = [
       name: 'RSK',
       decimals: '18',
       contractAddress: '',
-      balance: ''
-    }
+      balance: '',
+    },
   },
   {
     name: 'Ethereum Kovan',
@@ -92,8 +92,8 @@ const supportedChains = [
       name: 'Ethereum',
       decimals: '18',
       contractAddress: '',
-      balance: ''
-    }
+      balance: '',
+    },
   },
   {
     name: 'Ethereum Classic Mainnet',
@@ -108,8 +108,8 @@ const supportedChains = [
       name: 'Ethereum',
       decimals: '18',
       contractAddress: '',
-      balance: ''
-    }
+      balance: '',
+    },
   },
   {
     name: 'POA Network Sokol',
@@ -124,8 +124,8 @@ const supportedChains = [
       name: 'POA',
       decimals: '18',
       contractAddress: '',
-      balance: ''
-    }
+      balance: '',
+    },
   },
   {
     name: 'POA Network Core',
@@ -140,8 +140,8 @@ const supportedChains = [
       name: 'POA',
       decimals: '18',
       contractAddress: '',
-      balance: ''
-    }
+      balance: '',
+    },
   },
   {
     name: 'xDAI Chain',
@@ -156,8 +156,8 @@ const supportedChains = [
       name: 'xDAI',
       decimals: '18',
       contractAddress: '',
-      balance: ''
-    }
+      balance: '',
+    },
   },
   {
     name: 'Callisto Mainnet',
@@ -172,8 +172,8 @@ const supportedChains = [
       name: 'CLO',
       decimals: '18',
       contractAddress: '',
-      balance: ''
-    }
+      balance: '',
+    },
   },
   {
     name: 'Binance Smart Chain',
@@ -188,10 +188,10 @@ const supportedChains = [
       name: 'BNB',
       decimals: '18',
       contractAddress: '',
-      balance: ''
-    }
+      balance: '',
+    },
   },
-  
+
   {
     name: 'Binance Testnet',
     short_name: 'bsc',
@@ -205,10 +205,9 @@ const supportedChains = [
       name: 'BNB',
       decimals: '18',
       contractAddress: '',
-      balance: ''
-    }
+      balance: '',
+    },
   },
-
 
   {
     name: 'Polygon Mumbai',
@@ -223,9 +222,9 @@ const supportedChains = [
       name: 'MATIC',
       decimals: '18',
       contractAddress: '',
-      balance: ''
-    }
-  }
-]
+      balance: '',
+    },
+  },
+];
 
 export default supportedChains;

@@ -11,18 +11,16 @@ import Process from './components/Process';
 
 const Home = () => {
   const theme = useTheme();
-  
+
   return (
     <Main>
       <Container>
-        <Hero/>
+        <Hero />
       </Container>
       <Container paddingY={3}>
-        <Process/>
+        <Process />
       </Container>
-      <Container>
-  
-      </Container>
+      <Container></Container>
       <Box
         position={'relative'}
         marginTop={{ xs: 4, md: 6 }}

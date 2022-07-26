@@ -57,7 +57,6 @@ const NavItem = ({ items }) => {
           </Grid>
         ))}
       </Grid>
-      
     </Box>
   );
 };

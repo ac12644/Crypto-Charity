@@ -10,14 +10,18 @@ import Contact from 'components/Contact';
 import FundraiserCard from 'blocks/FundraiserCard';
 
 import FactoryContract from 'contracts/FundraiserFactory.json';
-import Web3 from "web3";
+import Web3 from 'web3';
 
 export default function Donate() {
   const theme = useTheme();
-  const [ contract, setContract] = useState(null);
-  const [ accounts, setAccounts ] = useState(null);
-  const [ funds, setFunds ] = useState([]);
-  const web3 = new Web3(new Web3.providers.HttpProvider('https://data-seed-prebsc-1-s1.binance.org:8545/'));
+  const [contract, setContract] = useState(null);
+  const [accounts, setAccounts] = useState(null);
+  const [funds, setFunds] = useState([]);
+  const web3 = new Web3(
+    new Web3.providers.HttpProvider(
+      'https://data-seed-prebsc-1-s1.binance.org:8545/',
+    ),
+  );
 
   useEffect(() => {
     init();
@@ -36,36 +40,32 @@ export default function Donate() {
       setAccounts(accounts);
       const funds = await instance.methods.fundraisers(10, 0).call();
       setFunds(funds);
-    }
-    catch(error) {
+    } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   const displayFundraisers = () => {
     return funds.map((fundraiser) => {
-      return (
-        <FundraiserCard
-          fundraiser={fundraiser}
-          key={fundraiser}
-        />
-      )
-    })
-  }
-   
+      return <FundraiserCard fundraiser={fundraiser} key={fundraiser} />;
+    });
+  };
+
   return (
     <Main>
       <Container>
         <Hero
-          image={'https://images.unsplash.com/photo-1633158829585-23ba8f7c8caf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'}
+          image={
+            'https://images.unsplash.com/photo-1633158829585-23ba8f7c8caf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
+          }
           title={'Fund a project!'}
           heading={'Grow with projects you support'}
           subtitle={'Provide support to ongoing projects by donating ether.'}
         />
       </Container>
       <Container paddingY={3}>
-      <Grid container spacing={4}>
-        {displayFundraisers()}
+        <Grid container spacing={4}>
+          {displayFundraisers()}
         </Grid>
       </Container>
       <Box
@@ -98,9 +98,9 @@ export default function Donate() {
           ></path>
         </Box>
         <Container>
-          <Contact/>
+          <Contact />
         </Container>
       </Box>
-  </Main>
-  )
+    </Main>
+  );
 }

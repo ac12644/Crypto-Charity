@@ -59,7 +59,7 @@ const Footer = () => {
               >
                 Privacy
               </Link>
-            </Box>   
+            </Box>
           </Box>
         </Box>
       </Grid>

@@ -65,31 +65,32 @@ contract Fundraiser is Ownable {
     emit DonationReceived(msg.sender, msg.value);
   }
 
-  function myDonations()
-    public
-    view
-    returns (uint256[] memory values, uint256[] memory dates)
+  function myDonations() public view returns (
+      uint256[] memory values,
+      uint256[] memory dates
+  )
+
   {
     uint256 count = myDonationsCount();
     values = new uint256[](count);
     dates = new uint256[](count);
-
     for (uint256 i = 0; i < count; i++) {
-      Donation storage donation = _donations[msg.sender][i];
-      values[i] = donation.value;
-      dates[i] = donation.date;
+        Donation storage donation = _donations[msg.sender][i];
+        values[i] = donation.value;
+        dates[i] = donation.date;
     }
     return (values, dates);
   }
 
   function withdraw() public onlyOwner {
-    uint256 balance = address(this).balance;
-    beneficiary.transfer(balance);
-    emit Withdraw(balance);
+      uint256 balance = address(this).balance;
+      beneficiary.transfer(balance);
+      emit Withdraw(balance);
   }
 
   fallback() external payable {
-    totalDonations = totalDonations.add(msg.value);
-    donationsCount++;
+      totalDonations = totalDonations.add(msg.value);
+      donationsCount++;
   }
+
 }

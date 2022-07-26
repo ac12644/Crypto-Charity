@@ -1,9 +1,10 @@
-import React, { useState }from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Grid, Dialog, TextField, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 
+import DialogBox from 'blocks/DialogBox';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
@@ -12,41 +13,38 @@ const validationSchema = yup.object({
     .string()
     .min(20, 'Enter correct wallet address!')
     .required('Please specify new beneficiary address')
-    .matches(
-      /0x[a-fA-F0-9]{40}/,
-      'Enter correct wallet address!'
-    ),
+    .matches(/0x[a-fA-F0-9]{40}/, 'Enter correct wallet address!'),
 });
 
 const Beneficiary = ({ open, onClose, contract, accounts }) => {
-  const [ loading, setLoading ] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
-      newBeneficiary: ''
+      newBeneficiary: '',
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       console.log(values);
       setLoading(true);
       handleSubmit();
-    }
+    },
   });
 
   async function handleSubmit() {
-      const { newBeneficiary } = formik.values;
-      try {
-        await contract.methods.setBeneficiary(newBeneficiary).send({
-          from: accounts,
-        })
-        alert(`Fundraiser Beneficiary Changed`);
-        setLoading(false);
-      } catch (error) {
-          alert(error);
-          setLoading(false);
-        }
+    const { newBeneficiary } = formik.values;
+    try {
+      await contract.methods.setBeneficiary(newBeneficiary).send({
+        from: accounts,
+      });
+      alert(`Fundraiser Beneficiary Changed`);
+      setLoading(false);
+    } catch (error) {
+      alert(error);
       setLoading(false);
     }
+    setLoading(false);
+  }
 
   return (
     <Dialog
@@ -68,7 +66,7 @@ const Beneficiary = ({ open, onClose, contract, accounts }) => {
           paddingX: { xs: 4, sm: 12 },
         }}
       >
-        <ManageAccountsIcon sx={{ fontSize: 50 }}/>
+        <ManageAccountsIcon sx={{ fontSize: 50 }} />
         <Typography align={'center'}>
           <Typography component={'span'} fontWeight={700}>
             Change beneficiary address{' '}
@@ -85,9 +83,12 @@ const Beneficiary = ({ open, onClose, contract, accounts }) => {
                 onChange={formik.handleChange}
                 value={formik.values?.newBeneficiary}
                 error={
-                  formik.touched.newBeneficiary && Boolean(formik.errors.newBeneficiary)
+                  formik.touched.newBeneficiary &&
+                  Boolean(formik.errors.newBeneficiary)
                 }
-                helperText={formik.touched.newBeneficiary && formik.errors.newBeneficiary}
+                helperText={
+                  formik.touched.newBeneficiary && formik.errors.newBeneficiary
+                }
               />
             </Grid>
             <Grid item xs={12}>
@@ -111,15 +112,13 @@ const Beneficiary = ({ open, onClose, contract, accounts }) => {
           Cancel
         </Typography>
       </Box>
-      
     </Dialog>
   );
-}
+};
 Beneficiary.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   contract: PropTypes.object.isRequired,
   accounts: PropTypes.string.isRequired,
-}
+};
 export default Beneficiary;
-

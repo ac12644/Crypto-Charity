@@ -15,7 +15,9 @@ export default function CreateItem() {
     <Main>
       <Container>
         <Hero
-          image={'https://images.unsplash.com/photo-1633158829875-e5316a358c6f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'}
+          image={
+            'https://images.unsplash.com/photo-1633158829875-e5316a358c6f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
+          }
           title={'Require funding!'}
           heading={'Submit your project.'}
           subtitle={'Raise funding without any fees.'}
@@ -54,9 +56,9 @@ export default function CreateItem() {
           ></path>
         </Box>
         <Container>
-          <Contact/>
+          <Contact />
         </Container>
       </Box>
-  </Main>
-  )
+    </Main>
+  );
 }

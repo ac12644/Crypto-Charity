@@ -20,102 +20,100 @@ const cc = require('cryptocompare');
 const FundraiserCard = ({ fundraiser }) => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const [ web3, setWeb3 ] = useState(null);
-  const [ linkToCompany, setLinkToCompany ] = useState(null);
-  const [ description, setDescription ] = useState(null);
-  const [ about, setAbout ] = useState(null);
-  const [ images, setImages ] = useState('');
-  const [ fundName, setFundName ] = useState(null);
-  const [ totalDonations, setTotalDonations ] = useState(null);
-  const [ totalDonationsEth, setTotalDonationsEth ] = useState(null);
-  const [ contract, setContract] = useState(null);
-  const [ accounts, setAccounts ] = useState([]);
-  const [ donationAmount, setDonationAmount ] = useState(null);
-  const [ exchangeRate, setExchangeRate ] = useState(null);
-  const [ userDonations, setUserDonations ] = useState(null);
-  const [ isOwner, setIsOwner ] = useState(false);
-  
-  const ethAmount =  (donationAmount / exchangeRate || 0).toFixed(4);
+  const [web3, setWeb3] = useState(null);
+  const [linkToCompany, setLinkToCompany] = useState(null);
+  const [description, setDescription] = useState(null);
+  const [about, setAbout] = useState(null);
+  const [images, setImages] = useState('');
+  const [fundName, setFundName] = useState(null);
+  const [totalDonations, setTotalDonations] = useState(null);
+  const [totalDonationsEth, setTotalDonationsEth] = useState(null);
+  const [contract, setContract] = useState(null);
+  const [accounts, setAccounts] = useState([]);
+  const [donationAmount, setDonationAmount] = useState(null);
+  const [exchangeRate, setExchangeRate] = useState(null);
+  const [userDonations, setUserDonations] = useState(null);
+  const [isOwner, setIsOwner] = useState(false);
 
-  useEffect (() => {
-      if (fundraiser) {
-          init (fundraiser);
-      }
+  const ethAmount = (donationAmount / exchangeRate || 0).toFixed(4);
+
+  useEffect(() => {
+    if (fundraiser) {
+      init(fundraiser);
+    }
   }, [fundraiser]);
 
   const init = async (fundraiser) => {
-      try {
-        const fund = fundraiser;
-        const provider = await detectEthereumProvider();
-        const web3 = new Web3(provider);
-        const account = await web3.eth.getAccounts();
+    try {
+      const fund = fundraiser;
+      const provider = await detectEthereumProvider();
+      const web3 = new Web3(provider);
+      const account = await web3.eth.getAccounts();
 
-        console.log('accounts---', account);
+      console.log('accounts---', account);
 
-        const instance = new web3.eth.Contract(
-          FundraiserContract.abi,
-          fund
-        );
-        setWeb3 (web3);
-        setContract (instance);
-        setAccounts (account);
+      const instance = new web3.eth.Contract(FundraiserContract.abi, fund);
+      setWeb3(web3);
+      setContract(instance);
+      setAccounts(account);
 
-        console.log('----account0--',accounts[0]);
+      console.log('----account0--', accounts[0]);
 
-        setFundName(await instance.methods.name().call());
-        setImages(await instance.methods.images().call());
-        setDescription(await instance.methods.description().call());
-        setAbout(await instance.methods.about().call());
-        setLinkToCompany(await instance.methods.linkToCompany().call());
-        const totalDonation = await instance.methods.totalDonations().call();
+      setFundName(await instance.methods.name().call());
+      setImages(await instance.methods.images().call());
+      setDescription(await instance.methods.description().call());
+      setAbout(await instance.methods.about().call());
+      setLinkToCompany(await instance.methods.linkToCompany().call());
+      const totalDonation = await instance.methods.totalDonations().call();
 
-        console.log('---------data--------');
-        console.log(fundName, images, description, about, linkToCompany);
-      
-        await cc.price('ETH', ['USD'])
-          .then( prices => { 
-            exchangeRate = prices.USD; 
-            setExchangeRate(prices.USD); 
-          }).catch(console.error);
-        
-        const eth = web3.utils.fromWei(
-          web3.utils.toBN(totalDonation),
-          'ether'
-        );
+      console.log('---------data--------');
+      console.log(fundName, images, description, about, linkToCompany);
 
-        setTotalDonationsEth(parseFloat(eth).toFixed(4))
+      await cc
+        .price('ETH', ['USD'])
+        .then((prices) => {
+          exchangeRate = prices.USD;
+          setExchangeRate(prices.USD);
+        })
+        .catch(console.error);
 
-        console.log('eth--',eth);
-        console.log('totalDonationsEth', totalDonationsEth);
+      const eth = web3.utils.fromWei(web3.utils.toBN(totalDonation), 'ether');
 
-        const dollarDonationAmount = exchangeRate * eth;
-        setTotalDonations(dollarDonationAmount.toFixed(2));
-        
-        const userDonations = await instance.methods.myDonations().call({ from: accounts[0] });
-        console.log('MY DONATIONS', userDonations);
-        setUserDonations(userDonations);
-        const isUser = accounts[0];
-        const isOwner = await instance.methods.owner().call();
-        if (isOwner === accounts[0]) {
-            setIsOwner(true);
-        }
-      } catch (error) {
-          console.error(error);
+      setTotalDonationsEth(parseFloat(eth).toFixed(4));
+
+      console.log('eth--', eth);
+      console.log('totalDonationsEth', totalDonationsEth);
+
+      const dollarDonationAmount = exchangeRate * eth;
+      setTotalDonations(dollarDonationAmount.toFixed(2));
+
+      const userDonation = await instance.methods
+        .myDonations()
+        .call({ from: accounts[0] });
+      console.log('MY DONATIONS', userDonation);
+      setUserDonations(userDonation);
+      const isUser = accounts[0];
+      const isOwner = await instance.methods.owner().call();
+      if (isOwner === accounts[0]) {
+        setIsOwner(true);
       }
-  }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   window.ethereum.on('accountsChanged', function (accounts) {
-      window.location.reload()
-  })
+    window.location.reload();
+  });
   const withdrawFunds = async () => {
     await contract.methods.withdraw().send({
       from: accounts[0],
-    })
+    });
 
-    alert('Funds Withdrawn!')
-  }
+    alert('Funds Withdrawn!');
+  };
 
-  return ( 
-    <Grid item xs={12} sm={6} md={3} >
+  return (
+    <Grid item xs={12} sm={6} md={3}>
       <Box display={'block'} width={1} height={1}>
         <Card
           sx={{
@@ -137,7 +135,7 @@ const FundraiserCard = ({ fundraiser }) => {
               overflow: 'hidden',
               borderRadius: 2,
               filter:
-                    theme.palette.mode === 'dark' ? 'brightness(0.7)' : 'none',
+                theme.palette.mode === 'dark' ? 'brightness(0.7)' : 'none',
             }}
           >
             <Stack
@@ -173,16 +171,11 @@ const FundraiserCard = ({ fundraiser }) => {
                 >
                   Raised: {totalDonations || '0'}
                 </Typography>
-              </Box>  
+              </Box>
             </Stack>
           </CardMedia>
-          <Box
-            marginTop={1}
-          >
-            <Typography
-              fontWeight={700}
-              sx={{ textTransform: 'uppercase' }}
-            >
+          <Box marginTop={1}>
+            <Typography fontWeight={700} sx={{ textTransform: 'uppercase' }}>
               {fundName}
             </Typography>
           </Box>
@@ -231,23 +224,24 @@ const FundraiserCard = ({ fundraiser }) => {
             </Button>
           </Stack>
         </Card>
-        <ProjectDialog 
-          open = {open} 
-          key = {fundraiser}
-          onClose = {() => setOpen(false)} 
-          web3 = {web3}
-          exchangeRate = {exchangeRate}
-          totalDonations = {totalDonations}
-          totalDonationsEth = {totalDonationsEth}
-          images = {images}
-          name = {fundName}
-          description = {description}
-          about = {about}
-          linkToCompany = {linkToCompany}
-          contract = {contract}
-          accounts = {accounts[0]}
-          withdrawFunds = {withdrawFunds}
-          isOwner = {isOwner}
+        <ProjectDialog
+          open={open}
+          key={fundraiser}
+          onClose={() => setOpen(false)}
+          web3={web3}
+          exchangeRate={exchangeRate}
+          totalDonations={totalDonations}
+          totalDonationsEth={totalDonationsEth}
+          images={images}
+          name={fundName}
+          description={description}
+          about={about}
+          linkToCompany={linkToCompany}
+          contract={contract}
+          accounts={accounts[0]}
+          withdrawFunds={withdrawFunds}
+          isOwner={isOwner}
+          userDonations={userDonations}
         />
       </Box>
     </Grid>
