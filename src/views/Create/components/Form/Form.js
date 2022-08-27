@@ -21,7 +21,7 @@ import {
 import Web3 from 'web3';
 import detectEthereumProvider from '@metamask/detect-provider';
 import FundraiserFactoryContract from 'contracts/FundraiserFactory.json';
-import { create as ipfsHttpClient } from 'ipfs-http-client';
+import { create } from 'ipfs-http-client';
 
 const validationSchema = yup.object({
   name: yup
@@ -79,7 +79,20 @@ const Form = () => {
   const [alertOpen, setAlertOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [images, setImages] = useState('');
-  const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0');
+  const projectId = process.env.INFURA_IPFS_ID;
+  const projectSecret = process.env.INFURA_IPFS_SECRET;
+
+  const auth =
+    'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
+
+  const client = create({
+    host: 'ipfs.infura.io',
+    port: 5001,
+    protocol: 'https',
+    headers: {
+      authorization: auth,
+    },
+  });
 
   useEffect(() => {
     init();

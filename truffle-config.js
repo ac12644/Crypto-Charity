@@ -1,19 +1,16 @@
 const HDWalletProvider = require('@truffle/hdwallet-provider');
-require("dotenv").config();
+require('dotenv').config();
 
 const INFURA_ID = process.env.INFURA_ID;
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
-const MNEMONIC_KEY = process.env.MNEMONIC;
+const MNEMONIC_KEY = process.env.MNEMONIC_KEY;
 
 module.exports = {
-
   networks: {
     // -------------- TESTNET ---------------------
     mumbai: {
-      provider: () => new HDWalletProvider(
-        MNEMONIC_KEY,
-         `https://rpc-mumbai.matic.today`
-        ),
+      provider: () =>
+        new HDWalletProvider(MNEMONIC_KEY, `https://rpc-mumbai.matic.today`),
       network_id: 80001,
       confirmations: 2,
       timeoutBlocks: 200,
@@ -22,38 +19,37 @@ module.exports = {
       gasPrice: 10000000000,
     },
     smartChain: {
-      provider: () => new HDWalletProvider(
-        PRIVATE_KEY,
-       `https://data-seed-prebsc-1-s1.binance.org:8545/`
-      ),
+      provider: () =>
+        new HDWalletProvider(
+          PRIVATE_KEY,
+          `https://data-seed-prebsc-1-s1.binance.org:8545/`,
+        ),
       network_id: 97,
       confirmations: 10,
       timeoutBlocks: 200,
-      skipDryRun: true
+      skipDryRun: true,
     },
     kovan: {
-      provider: () => new HDWalletProvider(
-         PRIVATE_KEY,
-        `https://kovan.infura.io/v3/${INFURA_ID}`
-      ),
+      provider: () =>
+        new HDWalletProvider(
+          PRIVATE_KEY,
+          `https://kovan.infura.io/v3/${INFURA_ID}`,
+        ),
       network_id: 42,
       gas: 8500000,
-      gasPrice: 25000000000
+      gasPrice: 25000000000,
     },
 
     // -------------- MAIN NET ---------------------
 
     bsc: {
-      provider: () => new HDWalletProvider(
-         PRIVATE_KEY, 
-        `https://bsc-dataseed1.binance.org`
-        ),
+      provider: () =>
+        new HDWalletProvider(PRIVATE_KEY, `https://bsc-dataseed1.binance.org`),
       network_id: 56,
       confirmations: 10,
       timeoutBlocks: 200,
-      skipDryRun: true
+      skipDryRun: true,
     },
-
 
     // development: {
     //  host: "127.0.0.1",     // Localhost (default: none)
@@ -98,7 +94,7 @@ module.exports = {
   // Configure your compilers
   compilers: {
     solc: {
-      version: "0.8.0",      // Fetch exact version from solc-bin (default: truffle's version)
+      version: '0.8.0', // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
       // settings: {          // See the solidity docs for advice about optimization and evmVersion
       //  optimizer: {
@@ -107,6 +103,6 @@ module.exports = {
       //  },
       //  evmVersion: "byzantium"
       // }
-    }
-  }
+    },
+  },
 };

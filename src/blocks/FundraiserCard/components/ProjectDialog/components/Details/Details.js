@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Beneficiary from './components/Beneficiary';
 
@@ -39,6 +40,7 @@ const Details = ({
 }) => {
   const theme = useTheme();
   const [amount, setAmount] = useState(5);
+  const [donationList, setDonationList] = useState([]);
   const [open, setOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -63,7 +65,6 @@ const Details = ({
     }
     setLoading(false);
   };
-
   const renderDonationsList = () => {
     var donations = userDonations;
     if (donations === null) {
@@ -71,10 +72,12 @@ const Details = ({
     }
 
     const totalDonations = donations.length;
-    let donationList = [];
     var i;
     for (i = 0; i < totalDonations; i++) {
-      const ethAmount = web3.utils.fromWei(donations.values[i], 'ether');
+      const ethAmount = web3.utils.fromWei(
+        web3.utils.toBN(donations.values[i]),
+        'ether',
+      );
       const userDonation = exchangeRate * ethAmount;
       const donationDate = donations.dates[i];
       donationList.push({
@@ -84,7 +87,7 @@ const Details = ({
     }
     console.log('donationList', donationList);
     return donationList.map((donation) => {
-      <div className="donation-list">
+      <Box>
         check
         <p>${donation.donationAmount}</p>
         <Button variant="contained" color="primary">
@@ -102,7 +105,7 @@ const Details = ({
             Request Receipt
           </Link>
         </Button>
-      </div>;
+      </Box>;
     });
   };
 

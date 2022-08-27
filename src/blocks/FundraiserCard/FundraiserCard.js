@@ -90,8 +90,9 @@ const FundraiserCard = ({ fundraiser }) => {
       const userDonation = await instance.methods
         .myDonations()
         .call({ from: accounts[0] });
-      console.log('MY DONATIONS', userDonation);
       setUserDonations(userDonation);
+
+      console.log('userDonations', userDonations.values, userDonations.dates);
       const isUser = accounts[0];
       const isOwner = await instance.methods.owner().call();
       if (isOwner === accounts[0]) {

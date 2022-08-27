@@ -22,7 +22,6 @@ const ProjectDialog = ({
   accounts,
   withdrawFunds,
   isOwner,
-  donationList,
   userDonations,
 }) => {
   return (
@@ -94,6 +93,7 @@ ProjectDialog.propTypes = {
   about: PropTypes.string.isRequired,
   linkToCompany: PropTypes.string.isRequired,
   withdrawFunds: PropTypes.func.isRequired,
+  userDonations: PropTypes.array,
   isOwner: PropTypes.bool.isRequired,
 };
 
