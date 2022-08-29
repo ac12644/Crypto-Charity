@@ -21,13 +21,12 @@
 
 [![Product Name Screen Shot][product-screenshot]]()
 
-App Functions:
+### ⚙️Functions:
 
 - Create a fundraising campaign
-
-- Donate in BNB💰
-
-- Withdraw the amount💲
+- users can donate in ETH💰
+- Bneficiary can withdraw the donated amount💲
+- Doner can view last donations and generate receipt🧾
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -37,6 +36,7 @@ App Functions:
 - [Material UI](https://mui.com/)
 - [Truffle](https://trufflesuite.com/)
 - [Solidity](https://docs.soliditylang.org/)
+- [IPFS](https://ipfs.tech/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -46,13 +46,13 @@ App Functions:
 
 1. Clone the repo
    ```sh
-   https://github.com/ac12644/Put-A-Smile.git
+   git clone https://github.com/ac12644/Fundraising-Dapp.git
    ```
 2. Install packages
    ```sh
-   yarn add
+   yarn
    ```
-3. Install packages
+3. Run application
    ```sh
    yarn run dev
    ```
