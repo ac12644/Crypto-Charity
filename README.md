@@ -26,7 +26,7 @@
 - Create a fundraising campaign
 - users can donate in ETH💰
 - Bneficiary can withdraw the donated amount💲
-- Doner can view last donations and generate receipt🧾
+- Doner can view last donations and generate receipt🧾(TO DO)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
