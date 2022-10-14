@@ -29,8 +29,8 @@ const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
           component={'img'}
           src={
             mode === 'light' && !colorInvert
-              ? 'https://github.com/ac12644/Fundraiser_Dapp/raw/master/fundraise.png'
-              : 'https://github.com/ac12644/Fundraiser_Dapp/raw/master/fundraise.png'
+              ? 'https://github.com/ac12644/Fundraising-Dapp/blob/main/images/fundraise-light.png?raw=true'
+              : 'https://github.com/ac12644/Fundraising-Dapp/blob/main/images/fundraise-dark.png?raw=true'
           }
           height={0.4}
           width={0.4}
