@@ -5,7 +5,6 @@
     <img src="https://github.com/ac12644/Fundraiser_Dapp/raw/master/fundraise.png" alt="Logo" width="80" height="80">
   </a>
   <h3 align="center">Fundraiser</h3>
-  <h3>🚧 under-construction 🚧</h3>
   <p align="center">
     Be the change you want to see in the world.
   </p>
