@@ -10,7 +10,7 @@
   </p>
   <a href="#">Link</a> 
   <p align="center">
-    Decentralized application for fundraising built on Binance network 🌐. Set up a fundraising campaign, donate BNB💰, generate a receipt🗒️, and withdraw the amount💲.
+    Decentralized application for fundraising built on Polygon network 🌐. Set up a fundraising campaign, donate MATIC💰, generate a receipt🗒️, and beneficiary withdraw the amount💲.
   </p>
 </div>
 
