@@ -18,12 +18,13 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]]()
+![Screenshot](images/prev1.png)
+![Screenshot](images/prev2.png)
 
 ### ⚙️Functions:
 
 - Create a fundraising campaign
-- users can donate in ETH💰
+- users can donate in MATIC💰
 - Bneficiary can withdraw the donated amount💲
 - Doner can view last donations and generate receipt🧾(TO DO)
 
