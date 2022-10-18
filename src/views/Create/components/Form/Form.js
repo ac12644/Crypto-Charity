@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import {
@@ -18,8 +18,10 @@ import {
   Send,
 } from '@mui/icons-material';
 
+import Web3 from 'web3';
+import detectEthereumProvider from '@metamask/detect-provider';
+import FundraiserFactoryContract from 'contracts/FundraiserFactory.json';
 import { create } from 'ipfs-http-client';
-import { WalletContext } from 'web3/Web3Auth/config';
 
 const validationSchema = yup.object({
   name: yup
@@ -34,24 +36,24 @@ const validationSchema = yup.object({
     .min(210, 'Description is too short')
     .max(2020, 'Should be less than 300 words')
     .required('Please describe your project'),
-  // about: yup
-  //  .string()
-  //  .trim()
-  //  .min(210, 'Company description is too short')
-  //  .max(2020, 'Should be less than 300 words')
-  //  .required('Please write about your company'),
+  about: yup
+    .string()
+    .trim()
+    .min(210, 'Company description is too short')
+    .max(2020, 'Should be less than 300 words')
+    .required('Please write about your company'),
   beneficiary: yup
     .string()
     .min(6, 'Beneficiary address should be correct')
     .required('Please specify beneficiary address')
     .matches(/0x[a-fA-F0-9]{40}/, 'Enter correct wallet address!'),
-  // linkToCompany: yup
-  //   .string()
-  //   .min(3, 'Enter correct link')
-  //   .matches(
-  //     /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-  //     'Enter correct url!',
-  //   ),
+  linkToCompany: yup
+    .string()
+    .min(3, 'Enter correct link')
+    .matches(
+      /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+      'Enter correct url!',
+    ),
 });
 
 const Form = () => {
@@ -66,14 +68,16 @@ const Form = () => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       console.log(values);
+      setLoading(true);
       handleSubmit();
     },
   });
 
-  const { createFundraiser, isLoading } = useContext(WalletContext);
-
+  const [contract, setContract] = useState(null);
+  const [web3, setWeb3] = useState(null);
+  const [accounts, setAccounts] = useState(null);
   const [alertOpen, setAlertOpen] = useState(false);
-  const [loading, setLoading] = useState(isLoading);
+  const [loading, setLoading] = useState(false);
   const [images, setImages] = useState('');
   const projectId = process.env.INFURA_IPFS_ID;
   const projectSecret = process.env.INFURA_IPFS_SECRET;
@@ -90,6 +94,32 @@ const Form = () => {
     },
   });
 
+  useEffect(() => {
+    init();
+  }, []);
+
+  async function init() {
+    try {
+      const provider = await detectEthereumProvider();
+      const web3 = new Web3(provider);
+      const networkId = await web3.eth.net.getId();
+      const deployedNetwork = FundraiserFactoryContract.networks[networkId];
+      const accounts = await web3.eth.getAccounts();
+      const instance = new web3.eth.Contract(
+        FundraiserFactoryContract.abi,
+        deployedNetwork && deployedNetwork.address,
+      );
+      setWeb3(web3);
+      setContract(instance);
+      setAccounts(accounts);
+    } catch (error) {
+      alert(
+        `Failed to load web3, accounts, or contract. Check console for details.`,
+      );
+      console.error(error);
+    }
+  }
+
   async function saveToIpfs(e) {
     const file = e.target.files[0];
     try {
@@ -101,6 +131,7 @@ const Form = () => {
       console.log('----------------', images);
     } catch (error) {
       console.log('Error uploading file: ', error);
+      setLoading(false);
     }
   }
 
@@ -129,17 +160,31 @@ const Form = () => {
 
       console.log(data);
 
-      createFundraiser(
-        name,
-        linkToCompany,
-        images,
-        description,
-        about,
-        beneficiary,
-      );
+      try {
+        const transaction = await contract.methods
+          .createFundraiser(
+            name,
+            linkToCompany,
+            images,
+            description,
+            about,
+            beneficiary,
+          )
+          .send({ from: accounts[0] });
+
+        alert('Project created successfully');
+        setLoading(false);
+        console.log('10.1 transaction.wait------success', transaction);
+      } catch (error) {
+        //console.log('10.2 transaction.wait------error', error)
+        alert(error);
+        setLoading(false);
+      }
+      setLoading(false);
     }
     if (!images) {
       setAlertOpen(true);
+      setLoading(false);
     }
   }
   return (
@@ -250,7 +295,7 @@ const Form = () => {
               sx={{ marginBottom: 2 }}
               fontWeight={700}
             >
-              About your company
+              About your company *
             </Typography>
             <TextField
               label="Write about your company (<300 words)"
@@ -296,7 +341,7 @@ const Form = () => {
               sx={{ marginBottom: 2 }}
               fontWeight={700}
             >
-              Link to Project
+              Link to Project *
             </Typography>
             <TextField
               label="Link to your project"

@@ -18,9 +18,7 @@ export default function Donate() {
   const [accounts, setAccounts] = useState(null);
   const [funds, setFunds] = useState([]);
   const web3 = new Web3(
-    new Web3.providers.HttpProvider(
-      'https://data-seed-prebsc-1-s1.binance.org:8545/',
-    ),
+    new Web3.providers.HttpProvider('https://rpc-mumbai.matic.today'),
   );
 
   useEffect(() => {

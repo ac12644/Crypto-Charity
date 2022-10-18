@@ -8,8 +8,6 @@ import 'slick-carousel/slick/slick-theme.css';
 import 'react-image-lightbox/style.css';
 import 'aos/dist/aos.css';
 
-import { WalletProvider, CHAIN_TYPES } from 'web3/Web3Auth/config';
-
 export default function App({ Component, pageProps }) {
   return (
     <React.Fragment>
@@ -20,11 +18,9 @@ export default function App({ Component, pageProps }) {
         />
         <title>Put A Smile</title>
       </Head>
-      <WalletProvider chainType={CHAIN_TYPES.mumbai}>
-        <Page>
-          <Component {...pageProps} />
-        </Page>
-      </WalletProvider>
+      <Page>
+        <Component {...pageProps} />
+      </Page>
     </React.Fragment>
   );
 }
