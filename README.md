@@ -5,13 +5,12 @@
     <img src="https://github.com/ac12644/Fundraiser_Dapp/raw/master/fundraise.png" alt="Logo" width="80" height="80">
   </a>
   <h3 align="center">Fundraiser</h3>
-  <h3>🚧 under-construction 🚧</h3>
   <p align="center">
     Be the change you want to see in the world.
   </p>
   <a href="#">Link</a> 
   <p align="center">
-    Decentralized application for fundraising built on Binance network 🌐. Set up a fundraising campaign, donate BNB💰, generate a receipt🗒️, and withdraw the amount💲.
+    Decentralized application for fundraising built on Polygon network 🌐. Set up a fundraising campaign, donate MATIC💰, generate a receipt🗒️, and beneficiary withdraw the amount💲.
   </p>
 </div>
 
