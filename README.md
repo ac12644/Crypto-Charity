@@ -83,5 +83,3 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
-
-[product-screenshot]: https://firebasestorage.googleapis.com/v0/b/put-a-smile.appspot.com/o/git%2FScreenshot1.png?alt=media&token=a534ba3c-daa6-448e-a138-184fda90257c
