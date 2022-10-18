@@ -30,30 +30,14 @@ const validationSchema = yup.object({
     .min(2, 'Name too short')
     .max(50, 'Name too long')
     .required('Please specify the name'),
-  description: yup
-    .string()
-    .trim()
-    .min(210, 'Description is too short')
-    .max(2020, 'Should be less than 300 words')
-    .required('Please describe your project'),
-  about: yup
-    .string()
-    .trim()
-    .min(210, 'Company description is too short')
-    .max(2020, 'Should be less than 300 words')
-    .required('Please write about your company'),
+  description: yup.string().trim().required('Please describe your project'),
+  about: yup.string().trim().required('Please write about your company'),
   beneficiary: yup
     .string()
     .min(6, 'Beneficiary address should be correct')
     .required('Please specify beneficiary address')
     .matches(/0x[a-fA-F0-9]{40}/, 'Enter correct wallet address!'),
-  linkToCompany: yup
-    .string()
-    .min(3, 'Enter correct link')
-    .matches(
-      /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-      'Enter correct url!',
-    ),
+  linkToCompany: yup.string().min(3, 'Enter correct link'),
 });
 
 const Form = () => {
