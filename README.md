@@ -2,7 +2,7 @@
 <br />
 <div align="center">
   <a href="#">
-    <img src="/images/crypto-charity-light.png" alt="Logo" width="360" height="80">
+    <img src="/images/crypto-charity-light.png" alt="Logo" width="260" height="40">
   </a>
   <p align="center">
     Be the change you want to see in the world.
