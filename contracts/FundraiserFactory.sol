@@ -11,18 +11,16 @@ contract FundraiserFactory {
 
   function createFundraiser(
     string memory name,
-    string memory linkToCompany,
-    string memory images,
+    string memory image,
     string memory description,
-    string memory about,
+    uint256 goalAmount,
     address payable beneficiary
   ) public {
     Fundraiser fundraiser = new Fundraiser(
       name,
-      linkToCompany,
-      images,
+      image,
       description,
-      about,
+      goalAmount,
       beneficiary,
       msg.sender
     );

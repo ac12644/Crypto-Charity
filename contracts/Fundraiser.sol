@@ -17,30 +17,26 @@ contract Fundraiser is Ownable {
   event Withdraw(uint256 amount);
 
   string public name;
-  string public linkToCompany;
-  string public images;
+  string public image;
   string public description;
-  string public about;
-
   address payable public beneficiary;
-
+  uint256 public goalAmount;
   uint256 public totalDonations;
   uint256 public donationsCount;
 
+
   constructor(
     string memory _name,
-    string memory _linkToCompany,
-    string memory _images,
+    string memory _image,
     string memory _description,
-    string memory _about,
+    uint256 _goalAmount,
     address payable _beneficiary,
     address _custodian
   ) public {
     name = _name;
-    linkToCompany = _linkToCompany;
-    images = _images;
+    image = _image;
     description = _description;
-    about = _about;
+    goalAmount = _goalAmount;
     beneficiary = _beneficiary;
     _transferOwnership(_custodian);
   }
