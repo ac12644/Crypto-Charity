@@ -2,15 +2,14 @@
 <br />
 <div align="center">
   <a href="#">
-    <img src="https://github.com/ac12644/Fundraiser_Dapp/raw/master/fundraise.png" alt="Logo" width="80" height="80">
+    <img src="/images/crypto-charity-dark.png" alt="Logo" width="80" height="80">
   </a>
-  <h3 align="center">Fundraiser</h3>
   <p align="center">
     Be the change you want to see in the world.
   </p>
   <a href="https://fundraising-dapp-5xq63w17f-ac12644.vercel.app/">Link</a> 
   <p align="center">
-    Decentralized application for fundraising built on Polygon network 🌐. Set up a fundraising campaign, donate MATIC💰, generate a receipt🗒️, and beneficiary withdraw the amount💲.
+    Raise fund for social work in crypto built on polygon network. Create fundraising campaign, donate MATIC, generate a receipt, and withdraw the amount.
   </p>
 </div>
 
