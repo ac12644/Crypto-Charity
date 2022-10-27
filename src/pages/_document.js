@@ -12,12 +12,12 @@ export default class MyDocument extends Document {
           <meta charSet="utf-8" />
           <link
             rel="shortcut icon"
-            href="https://github.com/ac12644/Fundraiser_Dapp/raw/master/fundraise.png"
+            href="https://github.com/ac12644/Fundraising-Dapp/blob/main/images/cc-box-light.png?raw=true"
           />
           <meta name="theme-color" content="#ffffff" />
           <meta
             name="description"
-            content="Fundraising built on binance network 🌐. Set up a fundraising campaign, donate ETH💰, generate a receipt🗒️, and withdraw the amount💲."
+            content="Raise fund for social work in crypto built on polygon network. Create fundraising campaign, donate MATIC, generate a receipt, and withdraw the amount."
           />
           <meta
             name="robots"
@@ -27,20 +27,14 @@ export default class MyDocument extends Document {
           <meta property="og:type" content="website" />
           <meta
             property="og:image"
-            content="https://github.com/ac12644/Fundraiser_Dapp/raw/master/fundraise.png"
+            content="https://github.com/ac12644/Fundraising-Dapp/blob/main/images/crypto%20charity-light.png?raw=true"
           />
-          <meta
-            property="og:title"
-            content="Put A Smile"
-          />
+          <meta property="og:title" content="crypto charity" />
           <meta
             property="og:description"
-            content="Fundraising built on binance network 🌐. Set up a fundraising campaign, donate ETH💰, generate a receipt🗒️, and withdraw the amount💲."
+            content="Raise fund for social work in crypto built on polygon network. Create fundraising campaign, donate MATIC, generate a receipt, and withdraw the amount."
           />
-          <meta
-            property="og:url"
-            content="www.google.com"
-          />
+          <meta property="og:url" content="www.google.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"

@@ -24,14 +24,14 @@ const Footer = () => {
             component="a"
             href="/"
             title="theFront"
-            width={110}
+            width={360}
           >
             <Box
               component={'img'}
               src={
                 mode === 'light'
-                  ? 'https://github.com/ac12644/Fundraiser_Dapp/raw/master/fundraise.png'
-                  : 'https://github.com/ac12644/Fundraiser_Dapp/raw/master/fundraise.png'
+                  ? 'https://github.com/ac12644/Fundraising-Dapp/blob/main/images/crypto%20charity-light.png?raw=true'
+                  : 'https://github.com/ac12644/Fundraising-Dapp/blob/main/images/crypto%20charity-dark.png?raw=true'
               }
               height={0.4}
               width={0.4}
@@ -49,17 +49,6 @@ const Footer = () => {
                 Home
               </Link>
             </Box>
-            <Box marginTop={1} marginRight={1}>
-              <Link
-                underline="none"
-                component="a"
-                href="#"
-                color="text.primary"
-                variant={'subtitle2'}
-              >
-                Privacy
-              </Link>
-            </Box>
           </Box>
         </Box>
       </Grid>
@@ -70,7 +59,7 @@ const Footer = () => {
           color="text.secondary"
           gutterBottom
         >
-          &copy; Put A Smile. 2022. MIT
+          Crypto Charity. {new Date().getFullYear()}. MIT
         </Typography>
         {/* 
         <Typography

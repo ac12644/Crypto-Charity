@@ -1,11 +1,10 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
-
 import Main from 'layouts/Main';
 import Container from 'components/Container';
-import Contact from 'components/Contact';
-
+import Newsletter from 'components/Newsletter';
+import FundraiserGrid from './components/FundraiserGrid';
 import Hero from './components/Hero';
 import Process from './components/Process';
 
@@ -20,7 +19,9 @@ const Home = () => {
       <Container paddingY={3}>
         <Process />
       </Container>
-      <Container></Container>
+      <Container>
+        <FundraiserGrid />
+      </Container>
       <Box
         position={'relative'}
         marginTop={{ xs: 4, md: 6 }}
@@ -51,7 +52,7 @@ const Home = () => {
           ></path>
         </Box>
         <Container>
-          <Contact />
+          <Newsletter />
         </Container>
       </Box>
     </Main>

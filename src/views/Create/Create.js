@@ -5,7 +5,7 @@ import { useTheme } from '@mui/material/styles';
 import Main from 'layouts/Main';
 import Container from 'components/Container';
 import Hero from 'components/Hero';
-import Contact from 'components/Contact';
+import Contact from 'components/Newsletter';
 import { Form } from './components';
 
 export default function CreateItem() {

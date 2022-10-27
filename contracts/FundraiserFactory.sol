@@ -5,7 +5,7 @@ import './Fundraiser.sol';
 
 contract FundraiserFactory {
   uint256 constant maxLimit = 20;
-  Fundraiser[] private _fundraisers;
+  Fundraiser[] public _fundraisers;
 
   event FundraiserCreated(Fundraiser indexed fundraiser, address indexed owner);
 

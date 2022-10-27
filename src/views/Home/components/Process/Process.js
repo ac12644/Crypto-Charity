@@ -13,8 +13,7 @@ import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 const mock = [
   {
     title: '0% Fees',
-    subtitle:
-      'Raising capital is usually very expensive. Not anymore! Our platform will allow you to raise the needed capital without losing even a single share.',
+    subtitle: 'No platform fees on transaction',
     icon: <CurrencyBitcoinIcon />,
   },
   {
@@ -51,7 +50,7 @@ const Process = () => {
           align={'center'}
           sx={{ fontWeight: 700 }}
         >
-          Raise fund and make donations in ethereum
+          Raise fund and make donations in MATIC
         </Typography>
         <Typography
           variant={'h6'}

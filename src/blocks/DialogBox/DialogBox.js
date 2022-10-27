@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, Grid, Dialog, Typography } from '@mui/material';
+import { Box, Grid, Dialog, Typography, Button } from '@mui/material';
 import { VolunteerActivism } from '@mui/icons-material';
 
-const DialogBox = ({ open, onClose }) => {
+const DialogBox = ({
+  open,
+  onClose,
+  title,
+  message,
+  buttonLink,
+  buttonText,
+}) => {
   return (
     <Dialog
       onClose={onClose}
@@ -27,13 +34,23 @@ const DialogBox = ({ open, onClose }) => {
         <VolunteerActivism sx={{ fontSize: 50 }} />
         <Typography align={'center'}>
           <Typography component={'span'} fontWeight={700}>
-            Thank you for donation{' '}
+            {title}
+          </Typography>
+        </Typography>
+        <Typography align={'center'}>
+          <Typography component={'span'} fontWeight={500}>
+            {message}
           </Typography>
         </Typography>
         <Grid container spacing={2} sx={{ marginY: 4 }}>
           <Grid item xs={12}>
-            <Button size={'large'} variant={'contained'} fullWidth>
-              Go to home
+            <Button
+              href={buttonLink}
+              size={'large'}
+              variant={'contained'}
+              fullWidth
+            >
+              {buttonText}
             </Button>
           </Grid>
         </Grid>
@@ -51,5 +68,9 @@ const DialogBox = ({ open, onClose }) => {
 DialogBox.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
+  title: PropTypes.string,
+  message: PropTypes.string,
+  buttonText: PropTypes.string,
+  buttonLink: PropTypes.string,
 };
 export default DialogBox;

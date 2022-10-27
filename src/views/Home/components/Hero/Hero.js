@@ -34,7 +34,7 @@ const Hero = () => {
             </Box>
             <Box marginBottom={3}>
               <Typography variant="h6" component="p" color="text.secondary">
-                Crowdfunding platform built on top of Ethereum blockchain.
+                Crowdfunding platform built on top of Polygon blockchain.
               </Typography>
             </Box>
             <Box
@@ -48,43 +48,9 @@ const Hero = () => {
                 color="primary"
                 size="large"
                 fullWidth={!isMd}
-                href="/create"
+                href="/projects"
               >
-                Fundraise
-              </Box>
-              <Box
-                component={Button}
-                color="primary"
-                size="large"
-                fullWidth={!isMd}
-                marginTop={{ xs: 1, sm: 0 }}
-                marginLeft={{ sm: 2 }}
-                startIcon={
-                  <Box
-                    component={'svg'}
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    width={24}
-                    height={24}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </Box>
-                }
-              >
-                Watch the video
+                Start Donating
               </Box>
             </Box>
           </Box>

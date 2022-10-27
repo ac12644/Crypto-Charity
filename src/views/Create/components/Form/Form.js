@@ -17,10 +17,10 @@ import {
   Close,
   Send,
 } from '@mui/icons-material';
-
-import Web3 from 'web3';
-import detectEthereumProvider from '@metamask/detect-provider';
 import FundraiserFactoryContract from 'contracts/FundraiserFactory.json';
+import DialogBox from 'blocks/DialogBox';
+import Web3 from 'web3';
+import Web3Modal from 'web3modal';
 import { create } from 'ipfs-http-client';
 
 const validationSchema = yup.object({
@@ -31,23 +31,20 @@ const validationSchema = yup.object({
     .max(50, 'Name too long')
     .required('Please specify the name'),
   description: yup.string().trim().required('Please describe your project'),
-  about: yup.string().trim().required('Please write about your company'),
   beneficiary: yup
     .string()
     .min(6, 'Beneficiary address should be correct')
     .required('Please specify beneficiary address')
     .matches(/0x[a-fA-F0-9]{40}/, 'Enter correct wallet address!'),
-  linkToCompany: yup.string().min(3, 'Enter correct link'),
 });
 
 const Form = () => {
   const formik = useFormik({
     initialValues: {
       name: '',
-      linkToCompany: '',
       description: '',
-      about: '',
       beneficiary: '',
+      goalAmount: '',
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -59,12 +56,15 @@ const Form = () => {
 
   const [contract, setContract] = useState(null);
   const [web3, setWeb3] = useState(null);
+  const [image, setImage] = useState('');
   const [accounts, setAccounts] = useState(null);
+  const [open, setOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [images, setImages] = useState('');
   const projectId = process.env.INFURA_IPFS_ID;
   const projectSecret = process.env.INFURA_IPFS_SECRET;
+  const [dialogBoxOpen, setDialogBoxOpen] = useState(false);
+  const [hash, setHash] = useState('');
 
   const auth =
     'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
@@ -82,10 +82,14 @@ const Form = () => {
     init();
   }, []);
 
-  async function init() {
+  const init = async () => {
     try {
-      const provider = await detectEthereumProvider();
-      const web3 = new Web3(provider);
+      const web3Modal = new Web3Modal({
+        network: 'mainnet',
+        cacheProvider: true,
+      });
+      const connection = await web3Modal.connect();
+      const web3 = new Web3(connection);
       const networkId = await web3.eth.net.getId();
       const deployedNetwork = FundraiserFactoryContract.networks[networkId];
       const accounts = await web3.eth.getAccounts();
@@ -102,7 +106,7 @@ const Form = () => {
       );
       console.error(error);
     }
-  }
+  };
 
   async function saveToIpfs(e) {
     const file = e.target.files[0];
@@ -110,66 +114,44 @@ const Form = () => {
       const added = await client.add(file, {
         progress: (prog) => console.log(`received: ${prog}`),
       });
-      const fileUrl = `https://ipfs.infura.io/ipfs/${added.path}`;
-      setImages(fileUrl);
-      console.log('----------------', images);
+      const fileUrl = `https://ac12644.infura-ipfs.io/ipfs/${added.path}`;
+      setImage(fileUrl);
+      console.log(image);
+      setOpen(true);
     } catch (error) {
       console.log('Error uploading file: ', error);
       setLoading(false);
+      setAlertOpen(true);
     }
   }
 
   async function handleSubmit() {
-    if (images) {
-      const { name, linkToCompany, description, about, beneficiary } =
-        formik.values;
-      if (
-        !name ||
-        !description ||
-        !about ||
-        !linkToCompany ||
-        !beneficiary ||
-        !images
-      )
-        return;
-      /* first, upload to IPFS */
-      const data = JSON.stringify({
-        name,
-        linkToCompany,
-        images,
-        description,
-        about,
-        beneficiary,
-      });
+    const { name, description, beneficiary, goalAmount } = formik.values;
 
-      console.log(data);
-
-      try {
-        const transaction = await contract.methods
-          .createFundraiser(
-            name,
-            linkToCompany,
-            images,
-            description,
-            about,
-            beneficiary,
-          )
-          .send({ from: accounts[0] });
-
-        alert('Project created successfully');
-        setLoading(false);
-        console.log('10.1 transaction.wait------success', transaction);
-      } catch (error) {
-        //console.log('10.2 transaction.wait------error', error)
-        alert(error);
-        setLoading(false);
-      }
+    const data = JSON.stringify({
+      name,
+      image,
+      description,
+      goalAmount,
+      beneficiary,
+    });
+    console.log(data);
+    try {
+      const transaction = await contract.methods
+        .createFundraiser(name, image, description, goalAmount, beneficiary)
+        .send({ from: accounts[0] });
+      setHash(transaction.transactionHash);
+      setDialogBoxOpen(true);
+      setAlertOpen(false);
+      console.log(hash);
+      formik.resetForm();
+      setOpen(false);
+      setLoading(false);
+    } catch (error) {
+      alert(error);
       setLoading(false);
     }
-    if (!images) {
-      setAlertOpen(true);
-      setLoading(false);
-    }
+    setLoading(false);
   }
   return (
     <Box>
@@ -182,7 +164,7 @@ const Form = () => {
               fontWeight={700}
             >
               <AttachFile fontSize="medium" />
-              Upload images *
+              Upload an image *
             </Typography>
             <input
               type="file"
@@ -191,8 +173,7 @@ const Form = () => {
                 'image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp'
               }
               id="upload"
-              multiple
-              onChange={saveToIpfs}
+              onChange={saveToIpfs} // fix here change to image
               style={{ display: 'none', cursor: 'pointer' }}
             />
             <IconButton aria-label="upload" size="small">
@@ -200,12 +181,27 @@ const Form = () => {
                 <AddPhotoAlternate fontSize="large" />
               </label>
             </IconButton>
-
-            {images && (
-              <Alert severity="success" sx={{ mt: 1 }}>
+            <Collapse in={open}>
+              <Alert
+                severity="success"
+                sx={{ mt: 1 }}
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      setOpen(false);
+                    }}
+                  >
+                    <Close fontSize="inherit" />
+                  </IconButton>
+                }
+              >
                 File uploaded successfully!
               </Alert>
-            )}
+            </Collapse>
+
             <Box sx={{ width: '100%' }}>
               <Collapse in={alertOpen}>
                 <Alert
@@ -257,7 +253,7 @@ const Form = () => {
               Description *
             </Typography>
             <TextField
-              label="Describe your project (<300 words)"
+              label="Describe your project"
               variant="outlined"
               name={'description'}
               multiline
@@ -273,34 +269,10 @@ const Form = () => {
               }
             />
           </Grid>
-          <Grid item xs={12}>
-            <Typography
-              variant={'subtitle2'}
-              sx={{ marginBottom: 2 }}
-              fontWeight={700}
-            >
-              About your company *
-            </Typography>
-            <TextField
-              label="Write about your company (<300 words)"
-              variant="outlined"
-              name={'about'}
-              multiline
-              rows={5}
-              fullWidth
-              onChange={formik.handleChange}
-              value={formik.values?.about}
-              error={formik.touched.about && Boolean(formik.errors.about)}
-              helperText={formik.touched.about && formik.errors.about}
-            />
-          </Grid>
+
           <Grid item xs={12} sm={6}>
             <Box display="flex" alignItems="center">
-              <Typography
-                variant={'subtitle2'}
-                sx={{ marginBottom: 2 }}
-                fontWeight={700}
-              >
+              <Typography variant={'subtitle2'} sx={{ marginBottom: 2 }}>
                 Beneficiary Address *
               </Typography>
             </Box>
@@ -325,22 +297,19 @@ const Form = () => {
               sx={{ marginBottom: 2 }}
               fontWeight={700}
             >
-              Link to Project *
+              Goal amount (in USD)
             </Typography>
             <TextField
-              label="Link to your project"
+              label="Amount needed for project"
               variant="outlined"
-              name={'linkToCompany'}
+              name={'goalAmount'}
               fullWidth
               onChange={formik.handleChange}
-              value={formik.values?.linkToCompany}
+              value={formik.values?.goalAmount}
               error={
-                formik.touched.linkToCompany &&
-                Boolean(formik.errors.linkToCompany)
+                formik.touched.goalAmount && Boolean(formik.errors.goalAmount)
               }
-              helperText={
-                formik.touched.linkToCompany && formik.errors.linkToCompany
-              }
+              helperText={formik.touched.goalAmount && formik.errors.goalAmount}
             />
           </Grid>
           <Grid item container xs={12}>
@@ -366,6 +335,14 @@ const Form = () => {
           </Grid>
         </Grid>
       </form>
+      <DialogBox
+        open={dialogBoxOpen}
+        onClose={() => setDialogBoxOpen(false)}
+        title={'Thank you!'}
+        message={`Campaign created successfully with transaction hash: ${hash}`}
+        buttonText="View on polygonscan"
+        buttonLink={`https://mumbai.polygonscan.com/tx/${hash}`}
+      />
     </Box>
   );
 };

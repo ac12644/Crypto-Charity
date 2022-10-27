@@ -1,2 +1,1 @@
-export { default as Image } from './Image';
-export { default as Details } from './Details';
+export { default as Beneficiary } from './Beneficiary';

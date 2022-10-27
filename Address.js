@@ -1,2 +1,2 @@
 // POLYGON MUMBAI
-export const contractAddress = '0xf3E0bc3F50D0647F22559D7d7aB3C8d775f56290';
+export const contractAddress = '0x6e5bDb0E72597779b968C5Ff16Cc83D6C20C82D7';

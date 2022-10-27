@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const Receipts = (props) => {
+const Receipt = (props) => {
   const [donation, setDonation] = useState(null);
   const [fundName, setFundName] = useState(null);
   const [date, setDate] = useState(null);
@@ -26,4 +26,4 @@ const Receipts = (props) => {
   );
 };
 
-export default Receipts;
+export default Receipt;

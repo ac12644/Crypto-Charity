@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import NavItem from './components/NavItem';
-import Login from 'web3/Login';
 
 const SidebarNav = ({ pages }) => {
   const theme = useTheme();
@@ -17,14 +16,14 @@ const SidebarNav = ({ pages }) => {
           component="a"
           href="/"
           title="Virtualground"
-          width={{ xs: 100, md: 120 }}
+          width={{ xs: 380, md: 380 }}
         >
           <Box
             component={'img'}
             src={
               mode === 'light'
-                ? 'https://github.com/ac12644/Fundraising-Dapp/blob/main/images/fundraise-light.png?raw=true'
-                : 'https://github.com/ac12644/Fundraising-Dapp/blob/main/images/fundraise-dark.png?raw=true'
+                ? 'https://github.com/ac12644/Fundraising-Dapp/blob/main/images/crypto%20charity-light.png?raw=true'
+                : 'https://github.com/ac12644/Fundraising-Dapp/blob/main/images/crypto%20charity-dark.png?raw=true'
             }
             height={1}
             width={1}

@@ -2,7 +2,6 @@ import { useCallback, useEffect, useReducer, useState } from 'react';
 import { IconButton } from '@mui/material';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import Account from './components/Account';
-
 import { ellipseAddress, getChainData } from './lib/utilities';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import { providers } from 'ethers';

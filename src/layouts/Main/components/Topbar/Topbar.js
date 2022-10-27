@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Box, Typography } from '@mui/material';
+import { Button, Box } from '@mui/material';
 
 import { alpha, useTheme } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -22,15 +22,15 @@ const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
         display={'flex'}
         component="a"
         href="/"
-        title="Fund me"
-        width={{ xs: 100, md: 120 }}
+        title="crypto charity"
+        width={{ xs: 360, md: 380 }}
       >
         <Box
           component={'img'}
           src={
             mode === 'light' && !colorInvert
-              ? 'https://github.com/ac12644/Fundraising-Dapp/blob/main/images/fundraise-light.png?raw=true'
-              : 'https://github.com/ac12644/Fundraising-Dapp/blob/main/images/fundraise-dark.png?raw=true'
+              ? 'https://github.com/ac12644/Fundraising-Dapp/blob/main/images/crypto%20charity-light.png?raw=true'
+              : 'https://github.com/ac12644/Fundraising-Dapp/blob/main/images/crypto%20charity-dark.png?raw=true'
           }
           height={0.4}
           width={0.4}
