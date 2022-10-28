@@ -32,11 +32,13 @@
 
 #### Network
 
-Contract is deployed on Polygon mumbai network with address:
+Contract is deployed on Polygon mumbai network
 
 ```sh
 0x6e5bDb0E72597779b968C5Ff16Cc83D6C20C82D7
 ```
+
+https://mumbai.polygonscan.com/address/0x6e5bDb0E72597779b968C5Ff16Cc83D6C20C82D7
 
 ### ⚙️Functions:
 
