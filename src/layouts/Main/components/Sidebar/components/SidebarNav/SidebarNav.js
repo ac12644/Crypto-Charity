@@ -16,14 +16,14 @@ const SidebarNav = ({ pages }) => {
           component="a"
           href="/"
           title="Virtualground"
-          width={{ xs: 380, md: 380 }}
+          width={{ xs: 140, md: 380 }}
         >
           <Box
             component={'img'}
             src={
               mode === 'light'
-                ? 'https://github.com/ac12644/Fundraising-Dapp/blob/main/images/crypto%20charity-light.png?raw=true'
-                : 'https://github.com/ac12644/Fundraising-Dapp/blob/main/images/crypto%20charity-dark.png?raw=true'
+                ? 'https://github.com/ac12644/Crypto-Charity/blob/main/images/crypto-charity-light.png?raw=true'
+                : 'https://github.com/ac12644/Crypto-Charity/blob/main/images/crypto-charity-dark.png?raw=true'
             }
             height={1}
             width={1}

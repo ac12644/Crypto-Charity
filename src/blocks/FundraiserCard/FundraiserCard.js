@@ -124,8 +124,11 @@ const FundraiserCard = ({ fundraiser }) => {
 
     return donationList.map((donation) => {
       return (
-        <div>
-          <p>${donation.donationAmount}</p>
+        <Box>
+          <Typography component={'span'} fontWeight={700}>
+            ${donation.donationAmount}
+          </Typography>
+
           <Link
             to={{
               pathname: '/receipt',
@@ -144,7 +147,7 @@ const FundraiserCard = ({ fundraiser }) => {
               Receipt
             </Button>
           </Link>
-        </div>
+        </Box>
       );
     });
   };
@@ -258,7 +261,7 @@ const FundraiserCard = ({ fundraiser }) => {
           goalAmount={goalAmount}
           account={accounts[0]}
           isOwner={isOwner}
-          renderDonationsList={renderDonationsList}
+          renderDonationsList={renderDonationsList()}
         />
       </Box>
     </Grid>

@@ -24,14 +24,14 @@ const Footer = () => {
             component="a"
             href="/"
             title="theFront"
-            width={360}
+            width={350}
           >
             <Box
               component={'img'}
               src={
                 mode === 'light'
-                  ? 'https://github.com/ac12644/Fundraising-Dapp/blob/main/images/crypto%20charity-light.png?raw=true'
-                  : 'https://github.com/ac12644/Fundraising-Dapp/blob/main/images/crypto%20charity-dark.png?raw=true'
+                  ? 'https://github.com/ac12644/Crypto-Charity/blob/main/images/crypto-charity-light.png?raw=true'
+                  : 'https://github.com/ac12644/Crypto-Charity/blob/main/images/crypto-charity-dark.png?raw=true'
               }
               height={0.4}
               width={0.4}
