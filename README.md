@@ -19,7 +19,7 @@
   </p>
   
   
-  <a href="https://fundraising-dapp-5xq63w17f-ac12644.vercel.app/">Link</a> 
+  <a href="https://medium.com/better-programming/building-crypto-charity-dapp-for-crowdfunding-using-next-js-solidity-ipfs-and-truffle-6a7d75d81ead">Read full article on Medium</a> 
 </div>
 
 <!-- ABOUT THE PROJECT -->
