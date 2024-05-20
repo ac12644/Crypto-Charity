@@ -1,53 +1,49 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import './Fundraiser.sol';
+import "./Fundraiser.sol";
 
 contract FundraiserFactory {
-  uint256 constant maxLimit = 20;
-  Fundraiser[] public _fundraisers;
+    uint256 public constant MAX_LIMIT = 20;
+    Fundraiser[] private fundraisers;
 
-  event FundraiserCreated(Fundraiser indexed fundraiser, address indexed owner);
+    event FundraiserCreated(Fundraiser indexed fundraiser, address indexed owner);
 
-  function createFundraiser(
-    string memory name,
-    string memory image,
-    string memory description,
-    uint256 goalAmount,
-    address payable beneficiary
-  ) public {
-    Fundraiser fundraiser = new Fundraiser(
-      name,
-      image,
-      description,
-      goalAmount,
-      beneficiary,
-      msg.sender
-    );
-    _fundraisers.push(fundraiser);
-    emit FundraiserCreated(fundraiser, msg.sender);
-  }
-
-  function fundraisersCount() public view returns (uint256) {
-    return _fundraisers.length;
-  }
-
-  function fundraisers(uint256 limit, uint256 offset)
-    public
-    view
-    returns (Fundraiser[] memory coll)
-  {
-    require(offset <= fundraisersCount(), 'offset out of bounds');
-
-    uint256 size = fundraisersCount() - offset;
-    size = size < limit ? size : limit;
-    size = size < maxLimit ? size : maxLimit;
-    coll = new Fundraiser[](size);
-
-    for (uint256 i = 0; i < size; i++) {
-      coll[i] = _fundraisers[offset + i];
+    function createFundraiser(
+        string memory name,
+        string memory image,
+        string memory description,
+        uint256 goalAmount,
+        address payable beneficiary
+    ) external {
+        Fundraiser fundraiser = new Fundraiser(
+            name,
+            image,
+            description,
+            goalAmount,
+            beneficiary,
+            msg.sender
+        );
+        fundraisers.push(fundraiser);
+        emit FundraiserCreated(fundraiser, msg.sender);
     }
 
-    return coll;
-  }
+    function fundraisersCount() external view returns (uint256) {
+        return fundraisers.length;
+    }
+
+    function getFundraisers(uint256 limit, uint256 offset) external view returns (Fundraiser[] memory) {
+        require(offset <= fundraisers.length, "Offset out of bounds");
+        
+        uint256 size = fundraisers.length - offset;
+        size = size < limit ? size : limit;
+        size = size < MAX_LIMIT ? size : MAX_LIMIT;
+
+        Fundraiser[] memory coll = new Fundraiser[](size);
+        for (uint256 i = 0; i < size; i++) {
+            coll[i] = fundraisers[offset + i];
+        }
+
+        return coll;
+    }
 }
